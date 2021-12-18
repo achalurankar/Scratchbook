@@ -1,0 +1,5 @@
+<aura:component >
+   	<aura:attribute name="mapMarkers" type="Object[]"/>
+    <aura:handler name="init" action="{!c.init}" value="{!this}"/>
+    <lightning:map mapMarkers="{!v.mapMarkers}" />
+</aura:component>

@@ -1,0 +1,5 @@
+.pageStatus{
+    margin-left: 100px;
+    font-family: "Segoe UI", Arial, sans-serif;
+    transition: margin-left .5s;
+}

@@ -1,0 +1,4 @@
+<aura:component >
+    <aura:attribute name="parentVal" type="Object" access="public"/>
+    <p>value in parent = {!v.parentVal}</p>	
+</aura:component>

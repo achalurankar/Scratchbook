@@ -1,0 +1,8 @@
+<aura:component >
+	<!--public attribute valueChangeListener received from parent containing 
+		multiple callbacks-->
+    <aura:attribute name="valueChangeListener" type="Object" access="public"/>
+    
+    <input aura:id="input"/>
+    <button onclick="{!c.handleChange}">Send</button>
+</aura:component>

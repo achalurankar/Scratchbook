@@ -1,0 +1,18 @@
+<template>
+    <div class="sidebar">
+        <div class="heading">Your Pages</div>
+        <a href="javascript:void(0)" class="closebtn" onclick={closeNav}>&times;</a>
+        
+        <div class="row">
+            <template for:each={pages} for:item="page">
+                <div class="column" key={page.Id}>
+                    <c-preview page={page} onimageselect={handleImageSelect}></c-preview>
+                </div>
+            </template>
+        </div>
+    </div>
+      
+    <div class="main">
+        <button class="openbtn" onclick={openNav}>&#9776;</button>
+    </div>
+</template>

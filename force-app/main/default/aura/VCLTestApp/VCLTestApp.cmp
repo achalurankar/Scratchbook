@@ -1,0 +1,12 @@
+<aura:component >
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <!--parent value change listener-->
+    <aura:attribute name="valueChangeListener" type="Object" access="public"/>
+    
+    <aura:attribute name="parentVal" type="Object" access="public"/>
+    <!--attr value displayed in parent-->
+    
+    <!--child component-->
+    <c:VCLChildCmp valueChangeListener="{!v.valueChangeListener}" />
+    <c:VCLChild2 parentVal="{!v.parentVal}"/>
+</aura:component>

@@ -1,0 +1,51 @@
+<aura:component controller="AccountList">
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+    <aura:attribute name="accounts" type="Account[]" />
+    <aura:attribute name="columns" type="List"/>
+    <aura:attribute name="cityOptions" type="String[]" />
+    <aura:attribute name="selectedCity" type="String" default="" />
+    <aura:attribute name="showModal" type="boolean" default="false" />
+    <aura:attribute name="mapMarkers" type="Object[]"/>
+    <aura:attribute name="selectedRows" type="Object[]"/>
+    <aura:attribute name="isRowSelected" type="boolean" default="false"/>
+    <aura:attribute name="shortestDistance" type="Object"/>
+    
+    <!--List of accounts-->
+    <div style="margin:40px; height: 415px">
+        <lightning:datatable
+                             columns="{! v.columns }"
+                             data="{! v.accounts }"
+                             keyField="id"
+                             onrowaction="{! c.handleRowAction }"
+                             onheaderaction="{! c.handleHeaderAction }"
+                             onrowselection="{! c.handleRowSelection }"/>
+    </div>
+    
+    <aura:if isTrue="{!v.isRowSelected}">
+        <button 
+                style="margin-left:40px" 
+                class="slds-button slds-button_brand" 
+                onclick="{!c.handleMultipleClick}">Show Locations</button>
+    </aura:if>
+    
+    <!--Modal to show location of the account-->
+    <aura:if isTrue="{!v.showModal}">
+        <section role="dialog" tabindex="-1" aria-modal="true" aria-describedby="modal-content-id-1" 
+                 class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <p style="padding:10px">
+                        <span style="margin:5px">
+                            Shortest Distance = {!v.shortestDistance.distance} km from {!v.shortestDistance.fromCity} to {!v.shortestDistance.toCity}
+                        </span>
+                        <lightning:map mapMarkers="{!v.mapMarkers}" />
+                    </p>
+                </div>
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_brand" onclick="{!c.hideLocation}">OK</button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </aura:if>
+</aura:component>

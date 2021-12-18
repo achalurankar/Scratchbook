@@ -1,0 +1,13 @@
+<template>
+    <!-- sidebar for pages -->
+    <c-sidebar onnavigation={handleNavigation} onimageselected={handleImageSelected}></c-sidebar>
+    
+    <h2 class="pageStatus">{pageStatus}</h2>
+    <!-- canvas board for scratching -->
+    <c-board
+            height={height} 
+            page={page} 
+            width={width}
+            onchange={handlePageChange}
+            onsave={handleOnSave}></c-board>
+</template>

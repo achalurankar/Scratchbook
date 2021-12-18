@@ -1,0 +1,11 @@
+.image {
+    height: 125px;
+    width: 250px;
+    padding: 10px;
+    margin: 0px;
+    border: 1px solid black;
+}
+
+.image:hover {
+    cursor: pointer;
+}
