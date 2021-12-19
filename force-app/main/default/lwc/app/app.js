@@ -1,6 +1,9 @@
 import { LightningElement, api } from 'lwc';
 import savePage from '@salesforce/apex/scratchbook_cc.savePage';
 
+import toaster from '@salesforce/resourceUrl/toaster';
+import { loadStyle, loadScript } from 'lightning/platformResourceLoader';
+
 export default class App extends LightningElement {
 
     @api height;
@@ -14,6 +17,16 @@ export default class App extends LightningElement {
         this.page = {};
         this.height = screen.height;
         this.width = screen.width;
+        Promise.all([
+            loadScript(this, toaster + '/vanillatoasts.js'),
+            loadStyle(this, toaster + '/vanillatoasts.css')
+        ])
+            .then(() => {
+                toaster.showToast();
+                console.log('script loaded');
+            }).catch(err => {
+                console.log(JSON.stringify(err));
+            });
     }
 
     handleOnSave(event){
@@ -28,7 +41,7 @@ export default class App extends LightningElement {
             params.pageId = this.page.Id;
         savePage({ requestStructure : JSON.stringify(params)})
             .then(result => {
-                this.pageStatus = 'Saved';
+                this.updateUi();
                 console.log('savePage result - ' + result);
                 this.template.querySelector('c-sidebar').refreshPages();
             })
@@ -57,5 +70,9 @@ export default class App extends LightningElement {
 
     handlePageChange(event){
         this.pageStatus = 'Unsaved';
+    }
+
+    updateUi(){
+        this.pageStatus = 'Saved';
     }
 }
