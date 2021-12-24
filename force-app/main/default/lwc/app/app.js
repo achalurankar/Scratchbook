@@ -1,9 +1,6 @@
 import { LightningElement, api } from 'lwc';
 import savePage from '@salesforce/apex/scratchbook_cc.savePage';
 
-import toaster from '@salesforce/resourceUrl/toaster';
-import { loadStyle, loadScript } from 'lightning/platformResourceLoader';
-
 export default class App extends LightningElement {
 
     @api height;
@@ -15,18 +12,8 @@ export default class App extends LightningElement {
 
     connectedCallback(){
         this.page = {};
-        this.height = screen.height;
-        this.width = screen.width;
-        Promise.all([
-            loadScript(this, toaster + '/vanillatoasts.js'),
-            loadStyle(this, toaster + '/vanillatoasts.css')
-        ])
-            .then(() => {
-                toaster.showToast();
-                console.log('script loaded');
-            }).catch(err => {
-                console.log(JSON.stringify(err));
-            });
+        this.height = 490;
+        this.width = 1255;
     }
 
     handleOnSave(event){

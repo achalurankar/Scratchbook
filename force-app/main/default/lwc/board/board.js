@@ -76,13 +76,13 @@ export default class Board extends LightningElement {
             ctx.clearRect(0, 0, canvasElement.width, canvasElement.height);
             ctx.drawImage(image, 0, 0);
         };
-        image.src = page.Data__c;
+        image.src = page.imageData;
     }
 
     handleSaveClick() {
         //convert to png image as dataURL in the format of 'data:image/png;base64,base64value'
         var temp = Object.assign({}, this.page);
-        temp.Data__c = canvasElement.toDataURL("image/png");
+        temp.imageData = canvasElement.toDataURL("image/png").replace(/^data:image\/(png|jpg);base64,/, "");
         //dispatch event
         this.triggerEventDispatch('save', { page : temp });
     }

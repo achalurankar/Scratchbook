@@ -30,6 +30,7 @@ export default class Sidebar extends LightningElement {
         getPages({ bookId : this.bookId })
             .then(result =>{
                 this.pages = result;
+                // console.log(JSON.stringify(result));
             })
             .catch(error =>{
                 console.log(JSON.stringify(error));

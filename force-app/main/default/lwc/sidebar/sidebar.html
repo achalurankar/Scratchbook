@@ -5,7 +5,7 @@
         
         <div class="row">
             <template for:each={pages} for:item="page">
-                <div class="column" key={page.Id}>
+                <div class="column" key={page.pageId}>
                     <c-preview page={page} onimageselect={handleImageSelect}></c-preview>
                 </div>
             </template>
