@@ -18,14 +18,8 @@ public with sharing class scratchbook_cc {
     @AuraEnabled(cacheable = true)
     public static List<PageWrapper> getPages(string bookId){
         try {
-            // return [SELECT Id, Data__c FROM Page__c WHERE Book__c = :bookId];
             //for content version
-            List<ContentDocumentLink> cdls = [select ContentDocumentId from ContentDocumentLink where LinkedEntityId = :bookId]; 
-            Set<Id> ContentDocumentIds = new Set<Id>();
-            for(ContentDocumentLink cdl : cdls) {
-                ContentDocumentIds.add(cdl.ContentDocumentId);
-            }
-            List<ContentVersion> cvs = [SELECT Id, VersionData FROM ContentVersion WHERE ContentDocumentId in :ContentDocumentIds];
+            List<ContentVersion> cvs = [SELECT Id, VersionData FROM ContentVersion WHERE Book__c = :bookId];
             // System.System.debug(cvs.size());
             List<PageWrapper> pages = new List<PageWrapper>();
             for(ContentVersion cv : cvs) {
@@ -57,14 +51,8 @@ public with sharing class scratchbook_cc {
         cVersion.Origin = 'H';
         cVersion.Title = 'image-' + System.now() + '.png';
         cVersion.isMajorVersion = false; //to make the versionData editable
+        cVersion.Book__c = page.bookId;
         Insert cVersion;
-        Id conDocument = [SELECT ContentDocumentId FROM ContentVersion WHERE Id =:cVersion.Id].ContentDocumentId;
-        ContentDocumentLink cDocLink = new ContentDocumentLink();
-        cDocLink.ContentDocumentId = conDocument;
-        cDocLink.LinkedEntityId = page.bookId;
-        cDocLink.ShareType = 'I';
-        cDocLink.Visibility = 'AllUsers';
-        Insert cDocLink;
     }
     
     public class PageWrapper {
