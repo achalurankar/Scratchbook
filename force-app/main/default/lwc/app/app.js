@@ -23,9 +23,12 @@ export default class App extends LightningElement {
         }
         var params = {};
         params.bookId = this.bookId;
-        params.imageData = this.page.Data__c;
-        if(this.page.Id)
-            params.pageId = this.page.Id;
+        params.imageData = this.page.imageData;
+        if(this.page.pageId)
+            params.pageId = this.page.pageId; 
+        else
+            params.pageId = '';
+        // console.log(JSON.stringify(this.page));
         savePage({ requestStructure : JSON.stringify(params)})
             .then(result => {
                 this.updateUi();

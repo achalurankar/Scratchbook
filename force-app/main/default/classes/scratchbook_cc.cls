@@ -7,14 +7,8 @@ public with sharing class scratchbook_cc {
     public static string savePage(string requestStructure){
         try {
             PageWrapper wrapper = (PageWrapper) JSON.deserialize(requestStructure, PageWrapper.class);
-            Page__c page = new Page__c();
-            if(wrapper.pageId != null) {
-                page.Id = wrapper.pageId;
-            }
-            page.Data__c = wrapper.imageData;
-            page.Book__c = wrapper.bookId;
             // upsert page;
-            saveUsingContentVersion(page);
+            saveUsingContentVersion(wrapper);
             return 'Success';
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
@@ -40,30 +34,34 @@ public with sharing class scratchbook_cc {
                 pw.imageData = 'data:image/png;base64,' + EncodingUtil.base64Encode(cv.VersionData);
                 pw.pageId = cv.Id;
                 pages.add(pw);
-                System.debug(pw);
             }
-            System.debug(pages);
             return pages;
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
     }
     
-    public static void saveUsingContentVersion(Page__c page){
+    public static void saveUsingContentVersion(PageWrapper page){
         
         ContentVersion cVersion = new ContentVersion();
+        cVersion.VersionData = EncodingUtil.base64Decode(page.imageData);
+        if(page.pageId != '') {
+            //update existing page
+            cVersion.Id = page.pageId;
+            Update cVersion;
+            return;
+        }
+        //else insert new page
         cVersion.ContentLocation = 'S';
         cVersion.PathOnClient = 'image-' + System.now() + '.png';
         cVersion.Origin = 'H';
         cVersion.Title = 'image-' + System.now() + '.png';
-        cVersion.VersionData = EncodingUtil.base64Decode(page.Data__c);
+        cVersion.isMajorVersion = false; //to make the versionData editable
         Insert cVersion;
-
         Id conDocument = [SELECT ContentDocumentId FROM ContentVersion WHERE Id =:cVersion.Id].ContentDocumentId;
-
         ContentDocumentLink cDocLink = new ContentDocumentLink();
         cDocLink.ContentDocumentId = conDocument;
-        cDocLink.LinkedEntityId = page.Book__c;
+        cDocLink.LinkedEntityId = page.bookId;
         cDocLink.ShareType = 'I';
         cDocLink.Visibility = 'AllUsers';
         Insert cDocLink;
