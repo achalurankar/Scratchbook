@@ -9,3 +9,22 @@
 .image:hover {
     cursor: pointer;
 }
+
+.delete-btn {
+    width: 100%;
+    text-align: center;
+}
+
+svg {
+    margin-top: 5px;
+    padding: 4px;
+}
+
+svg:hover {
+    color : white;
+    background-color: rgb(245, 80, 80);
+    border: 1px solid white;
+    border-radius: 15px;
+    cursor: pointer;
+    text-shadow: rgb(255, 186, 186);
+}

@@ -47,6 +47,10 @@ export default class Sidebar extends LightningElement {
         var page = event.detail.page;
         this.triggerEventDispatch('imageselected', { page : page });
     }
+
+    handleDeleteClick(){
+        
+    }
     
     triggerEventDispatch(name, params) {
         var event = new CustomEvent(name, { detail : params });
