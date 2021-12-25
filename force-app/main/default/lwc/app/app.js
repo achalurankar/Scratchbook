@@ -1,5 +1,6 @@
 import { LightningElement, api } from 'lwc';
 import savePage from '@salesforce/apex/scratchbook_cc.savePage';
+import deletePage from '@salesforce/apex/scratchbook_cc.deletePage';
 
 export default class App extends LightningElement {
 
@@ -56,6 +57,18 @@ export default class App extends LightningElement {
         this.pageStatus = 'Saved';
         var cmp = this.template.querySelector('c-board');
         cmp.loadImage(page);
+    }
+
+    handleImageDelete(event){
+        var page = event.detail.page;
+        deletePage({ pageId : page.pageId })
+            .then(result => {
+                console.log('deletePage result - ' + result);
+                this.template.querySelector('c-sidebar').refreshPages();
+            })
+            .catch(error => {
+                console.log(JSON.stringify(error));
+            });
     }
 
     handlePageChange(event){

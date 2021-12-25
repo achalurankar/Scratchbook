@@ -40,7 +40,8 @@ export default class Sidebar extends LightningElement {
     @api
     refreshPages(){
         console.log('into refreshPages');
-        this.loadPages();
+        // this.loadPages();
+        location.reload();
     }
 
     handleImageSelect(event){
@@ -48,8 +49,9 @@ export default class Sidebar extends LightningElement {
         this.triggerEventDispatch('imageselected', { page : page });
     }
 
-    handleDeleteClick(){
-        
+    handleDeleteClick(event) {
+        var page = event.detail.page;
+        this.triggerEventDispatch('imagedelete', { page : page });
     }
     
     triggerEventDispatch(name, params) {

@@ -54,6 +54,18 @@ public with sharing class scratchbook_cc {
         cVersion.Book__c = page.bookId;
         Insert cVersion;
     }
+
+    @AuraEnabled
+    public static string deletePage(string pageId){
+        try {
+            Id cdid = [SELECT ContentDocumentId FROM ContentVersion WHERE Id = :pageId].ContentDocumentId;
+            ContentDocument cd = new ContentDocument(Id = cdid);
+            delete cd;
+            return 'Deleted';
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
     
     public class PageWrapper {
         @AuraEnabled public string bookId;
