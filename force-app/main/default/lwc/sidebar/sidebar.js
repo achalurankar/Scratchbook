@@ -1,6 +1,7 @@
 import { LightningElement, api} from 'lwc';
 
 import getPages from '@salesforce/apex/scratchbook_cc.getPages';
+import { dispatchEvent } from 'c/utils';
 
 export default class Sidebar extends LightningElement {
 
@@ -16,14 +17,14 @@ export default class Sidebar extends LightningElement {
     openNav() {
         this.template.querySelector(".sidebar").style.width = "250px";
         this.template.querySelector(".main").style.marginLeft = "250px";
-        this.triggerEventDispatch('navigation', { action : 'open' });
+        dispatchEvent(this, 'navigation', { action : 'open' });
     }
     
     /* Set the width of the sidebar to 0 and the left margin of the page content to 0 */
     closeNav() {
         this.template.querySelector(".sidebar").style.width = "0";
         this.template.querySelector(".main").style.marginLeft = "0";
-        this.triggerEventDispatch('navigation', { action : 'close' });
+        dispatchEvent(this, 'navigation', { action : 'close' });
     }
 
     loadPages(){
@@ -46,16 +47,11 @@ export default class Sidebar extends LightningElement {
 
     handleImageSelect(event){
         var page = event.detail.page;
-        this.triggerEventDispatch('imageselected', { page : page });
+        dispatchEvent(this, 'imageselected', { page : page });
     }
 
     handleDeleteClick(event) {
         var page = event.detail.page;
-        this.triggerEventDispatch('imagedelete', { page : page });
-    }
-    
-    triggerEventDispatch(name, params) {
-        var event = new CustomEvent(name, { detail : params });
-        this.dispatchEvent(event);
+        dispatchEvent(this, 'imagedelete', { page : page });
     }
 }

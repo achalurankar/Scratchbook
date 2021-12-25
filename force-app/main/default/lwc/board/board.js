@@ -1,5 +1,7 @@
 import { LightningElement, api } from 'lwc';
 
+import { dispatchEvent } from 'c/utils';
+
 let isDrawing = false;
 let x = 0;
 let y = 0;
@@ -64,7 +66,7 @@ export default class Board extends LightningElement {
         ctx.lineTo(x2, y2);
         ctx.stroke();
         ctx.closePath();
-        this.triggerEventDispatch('change', {});
+        dispatchEvent(this, 'change', {});
     }
 
     //public method to call from parent
@@ -84,11 +86,6 @@ export default class Board extends LightningElement {
         var temp = Object.assign({}, this.page);
         temp.imageData = canvasElement.toDataURL("image/png").replace(/^data:image\/(png|jpg);base64,/, "");
         //dispatch event
-        this.triggerEventDispatch('save', { page : temp });
-    }
-    
-    triggerEventDispatch(name, params) {
-        var event = new CustomEvent(name, { detail : params });
-        this.dispatchEvent(event);
+        dispatchEvent(this, 'save', { page : temp });
     }
 }
