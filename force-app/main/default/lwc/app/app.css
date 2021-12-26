@@ -3,3 +3,10 @@
     font-family: "Segoe UI", Arial, sans-serif;
     transition: margin-left .5s;
 }
+
+.board {
+    position: absolute;
+    top : 0px;
+    z-index: -1;
+    transition: margin-left .5s;
+}
