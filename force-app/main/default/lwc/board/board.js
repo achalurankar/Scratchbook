@@ -92,5 +92,5 @@ export default class Board extends LightningElement {
     handleNewClick() {
         ctx.clearRect(0, 0, canvasElement.width, canvasElement.height);
         this.page.pageId = '';
-    }
+    } 
 }

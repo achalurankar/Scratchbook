@@ -1,10 +1,5 @@
 <template>
     <!-- sidebar for pages -->
-    <!-- <c-sidebar 
-        class="sidebar"
-        onnavigation={handleNavigation} 
-        onimageselected={handleImageSelected}
-        onimagedelete={handleImageDelete}></c-sidebar> -->
     <div class="sidebar">
         <div class="heading">Your Pages</div>
         <a href="javascript:void(0)" class="closebtn" onclick={closeNav}>&times;</a>
@@ -19,16 +14,19 @@
     </div>
         
     <div class="main">
-        <button class="openbtn" onclick={openNav}>&#9776;</button>
+        <button class="openbtn" onclick={openNav}>></button>
     </div>
-    
-    <!-- <h2 class="pageStatus">{pageStatus}</h2> -->
+
     <!-- canvas board for scratching -->
-    <c-board
-            class="board"
-            height={height} 
-            page={page} 
-            width={width}
-            onchange={handlePageChange}
-            onsave={handleOnSave}></c-board>
+    <div class="container">
+        <div class="action-btns">
+            <button onclick={handleSaveClick} class="action-btn">Save</button>
+            <button onclick={handleNewClick} class="action-btn">New</button>
+        </div>
+        <div style="text-align: center; ">
+            <div class="slds-var-m-bottom_small">
+                <canvas class="board" width={width} height={height} name="canvasItem"></canvas>
+            </div>
+        </div>
+    </div>
 </template>

@@ -5,8 +5,10 @@
 }
 
 .board {
+    border:1px solid rgb(136, 135, 135);
     position: absolute;
     top : 0px;
+    left: 0px;
     z-index: -1;
     transition: margin-left .5s;
 }
@@ -24,58 +26,73 @@
     padding-top: 60px; /* Place content 60px from the top */
     transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
     border: 1px solid black;
-  }
-  
-  /* Position and style the close button (top right corner) */
-  .sidebar .closebtn {
+}
+
+/* Position and style the close button (top right corner) */
+.sidebar .closebtn {
     position: absolute;
     top: 0;
     right: 10px;
     font-size: 36px;
     margin-left: 50px;
-  }
-  
-  .sidebar .heading {
+}
+
+.sidebar .heading {
     position: absolute;
     top: 8px;
     left: 10px;
     font-size: 30px;
-  }
-  
-  /* The button used to open the sidebar */
-  .openbtn {
+}
+
+/* The button used to open the sidebar */
+.openbtn {
     cursor: pointer;
     left: 0px;
     background-color: #111;
     color: white;
     border: none;
-  }
-  
-  .openbtn:hover {
+}
+
+.openbtn:hover {
     background-color: #444;
-  }
-  
-  /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
-  .main {
+}
+
+/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+.main {
     transition: margin-left .5s; /* If you want a transition effect */
-  }
-  
-  /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
-  @media screen and (max-height: 450px) {
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
     .sidebar {padding-top: 15px;}
     .sidebar a {font-size: 18px;}
-  }
+}
   
-  /*list view*/
-  .column {
+/*list view*/
+.column {
     position: relative;
     float: left;
     width: 100%;
     padding: 10px;
-  }
-  
-  .row {
+}
+
+.row {
     content: "";
     display: table;
     clear: both;
-  }
+}
+  
+.action-btns {
+    position: absolute;
+    right: 4px;
+    top: 0px;
+    display: flex;
+}
+
+.action-btn {
+    background-color: #111;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-left: 2px;
+}

@@ -3,6 +3,12 @@ import getPages from '@salesforce/apex/scratchbook_cc.getPages';
 import savePage from '@salesforce/apex/scratchbook_cc.savePage';
 import deletePage from '@salesforce/apex/scratchbook_cc.deletePage';
 
+let isDrawing = false;
+let x = 0;
+let y = 0;
+
+let canvasElement, ctx; //storing canvas context
+
 export default class App extends LightningElement {
 
     @api height;
@@ -10,8 +16,6 @@ export default class App extends LightningElement {
     @api page;
     @track pages;
     bookId = 'a005j0000057CczAAE';
-    pageStatus = 'Saved';
-    pageStatusClass = 'pageStatus';
 
     connectedCallback(){
         this.page = {};
@@ -20,58 +24,74 @@ export default class App extends LightningElement {
         this.loadPages();
     }
 
-    handleOnSave(event){
-        this.page = event.detail.page;
-        if(!this.page){
-            console.log('received null image');
-        }
+    renderedCallback(){
+        canvasElement = this.template.querySelector('canvas');
+        ctx = canvasElement.getContext("2d");
+
+        // Add the event listeners for mousedown, mousemove, and mouseup
+        canvasElement.addEventListener('mousedown', e => {
+            x = e.offsetX;
+            y = e.offsetY;
+            isDrawing = true;
+        });
+        
+        canvasElement.addEventListener('mousemove', e => {
+            if (isDrawing === true) {
+                this.drawLine(x, y, e.offsetX, e.offsetY);
+                x = e.offsetX;
+                y = e.offsetY;
+            }
+        });
+        
+        this.template.addEventListener('mouseup', e => {
+            if (isDrawing === true) {
+                this.drawLine(x, y, e.offsetX, e.offsetY);
+                x = 0;
+                y = 0;
+                isDrawing = false;
+            }
+        });
+    }
+
+    drawLine(x1, y1, x2, y2) {
+        ctx.beginPath();
+        ctx.strokeStyle = 'black';
+        ctx.lineWidth = 1;
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
+        ctx.stroke();
+        ctx.closePath();
+        // dispatchEvent(this, 'change', {});
+    }
+
+    loadImage(page){
+        this.page = page;
+        var image = new Image();
+        image.onload = function() {
+            ctx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+            ctx.drawImage(image, 0, 0);
+        };
+        image.src = page.imageData;
+    }
+
+    handleSaveClick(event){
+        //convert to png image as dataURL in the format of 'data:image/png;base64,base64value'
+        var temp = Object.assign({}, this.page);
+        console.log(temp.pageId);
+        temp.imageData = canvasElement.toDataURL("image/png").replace(/^data:image\/(png|jpg);base64,/, "");
         var params = {};
+        params.pageId = temp.pageId ? temp.pageId : '';
+        params.imageData = temp.imageData;
         params.bookId = this.bookId;
-        params.imageData = this.page.imageData;
-        if(this.page.pageId)
-            params.pageId = this.page.pageId; 
-        else
-            params.pageId = '';
         // console.log(JSON.stringify(this.page));
         savePage({ requestStructure : JSON.stringify(params)})
             .then(result => {
-                this.updateUi();
                 console.log('savePage result - ' + result);
-                this.template.querySelector('c-sidebar').refreshPages();
+                this.refresh();
             })
             .catch(error => {
                 console.log(JSON.stringify(error));
             });
-    }
-    
-    handleNavigation(event){
-        var action = event.detail.action;
-        if(action === 'open'){
-            this.template.querySelector('c-board').style.marginLeft = '250px';
-            this.template.querySelector('.pageStatus').style.marginLeft = '270px';
-        } else {
-            this.template.querySelector('.pageStatus').style.marginLeft = '100px';
-            this.template.querySelector('c-board').style.marginLeft = '0px';
-        }
-    }
-
-    handleImageSelected(event){
-        var page = event.detail.page;
-        this.pageStatus = 'Saved';
-        var cmp = this.template.querySelector('c-board');
-        cmp.loadImage(page);
-    }
-
-    handleImageDelete(event){
-        
-    }
-
-    handlePageChange(event){
-        this.pageStatus = 'Unsaved';
-    }
-
-    updateUi(){
-        this.pageStatus = 'Saved';
     }
     
     /*side bar functions*/
@@ -97,11 +117,15 @@ export default class App extends LightningElement {
                 console.log(JSON.stringify(error));
             });
     }
+
+    refresh() {
+        location.reload();
+        //this.loadPages();
+    }
     
     handleImageSelect(event){
-        var page = event.detail.page;
-        console.log('handleImageSelect');
-        // dispatchEvent(this, 'imageselected', { page : page });
+        this.page = event.detail.page;
+        this.loadImage(this.page);
     }
 
     handleDeleteClick(event) {
@@ -109,10 +133,15 @@ export default class App extends LightningElement {
         deletePage({ pageId : page.pageId })
             .then(result => {
                 console.log('deletePage result - ' + result);
-                this.loadPages();
+                this.refresh();
             })
             .catch(error => {
                 console.log(JSON.stringify(error));
             });
+    }
+
+    handleNewClick(){
+        ctx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+        this.page = {};
     }
 }
