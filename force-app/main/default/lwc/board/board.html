@@ -1,12 +1,12 @@
 <template>
     <div class="container">
+        <div class="action-btns">
+            <button onclick={handleSaveClick} class="action-btn">Save</button>
+            <button onclick={handleNewClick} class="action-btn">New</button>
+        </div>
         <div style="text-align: center; ">
             <div class="slds-var-m-bottom_small">
                 <canvas class="board" width={width} height={height} name="canvasItem"></canvas>
-            </div>
-            <div class="slds-var-m-bottom_small">
-                <lightning-button variant="brand" label="Save" title="Save" 
-                    onclick={handleSaveClick} class="slds-var-m-left_x-small"></lightning-button>
             </div>
         </div>
     </div>

@@ -13,8 +13,8 @@ export default class App extends LightningElement {
 
     connectedCallback(){
         this.page = {};
-        this.height = 490;
-        this.width = 1255;
+        this.height = 595;
+        this.width = 1275;
     }
 
     handleOnSave(event){

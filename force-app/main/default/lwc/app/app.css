@@ -7,6 +7,10 @@
 .board {
     position: absolute;
     top : 0px;
-    z-index: -1;
+    z-index: 2;
     transition: margin-left .5s;
+}
+
+.sidebar {
+    z-index: 1;
 }

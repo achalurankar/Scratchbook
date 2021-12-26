@@ -1,11 +1,12 @@
 <template>
     <!-- sidebar for pages -->
     <c-sidebar 
+        class="sidebar"
         onnavigation={handleNavigation} 
         onimageselected={handleImageSelected}
         onimagedelete={handleImageDelete}></c-sidebar>
     
-    <h2 class="pageStatus">{pageStatus}</h2>
+    <!-- <h2 class="pageStatus">{pageStatus}</h2> -->
     <!-- canvas board for scratching -->
     <c-board
             class="board"
