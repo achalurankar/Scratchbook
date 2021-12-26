@@ -30,6 +30,7 @@ export default class App extends LightningElement {
 
         // Add the event listeners for mousedown, mousemove, and mouseup
         canvasElement.addEventListener('mousedown', e => {
+            e.preventDefault(); // to avoid text selection on mousemove
             x = e.offsetX;
             y = e.offsetY;
             isDrawing = true;
