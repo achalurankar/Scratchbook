@@ -26,7 +26,7 @@ export default class Sidebar extends LightningElement {
         this.template.querySelector(".main").style.marginLeft = "0";
         dispatchEvent(this, 'navigation', { action : 'close' });
     }
-
+    
     loadPages(){
         getPages({ bookId : this.bookId })
             .then(result =>{

@@ -1,10 +1,26 @@
 <template>
     <!-- sidebar for pages -->
-    <c-sidebar 
+    <!-- <c-sidebar 
         class="sidebar"
         onnavigation={handleNavigation} 
         onimageselected={handleImageSelected}
-        onimagedelete={handleImageDelete}></c-sidebar>
+        onimagedelete={handleImageDelete}></c-sidebar> -->
+    <div class="sidebar">
+        <div class="heading">Your Pages</div>
+        <a href="javascript:void(0)" class="closebtn" onclick={closeNav}>&times;</a>
+        
+        <div class="row">
+            <template for:each={pages} for:item="page">
+                <div class="column" key={page.pageId}>
+                    <c-preview page={page} ondeleteclick={handleDeleteClick} onimageselect={handleImageSelect}></c-preview>
+                </div>
+            </template>
+        </div>
+    </div>
+        
+    <div class="main">
+        <button class="openbtn" onclick={openNav}>&#9776;</button>
+    </div>
     
     <!-- <h2 class="pageStatus">{pageStatus}</h2> -->
     <!-- canvas board for scratching -->
