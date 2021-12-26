@@ -96,3 +96,22 @@
     cursor: pointer;
     margin-left: 2px;
 }
+
+/* toast */
+.toast-container {
+    position: absolute;
+    width: 150px;
+    height: 2rem;
+    top: -32px;
+    right: 50%;
+    align-items: center;
+    transition: top .5s;
+}
+
+.toast {
+    background-color: green;
+    color: white;
+    height: 100%;
+    padding: 5px;
+    font-size: 14px;
+}

@@ -4,15 +4,36 @@ public with sharing class scratchbook_cc {
     }
 
     @AuraEnabled
-    public static string savePage(string requestStructure){
+    public static Id savePage(string requestStructure){
         try {
             PageWrapper wrapper = (PageWrapper) JSON.deserialize(requestStructure, PageWrapper.class);
             // upsert page;
-            saveUsingContentVersion(wrapper);
-            return 'Success';
+            Id updateId = saveUsingContentVersion(wrapper);
+            return updateId;
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
+    }
+
+    public static Id saveUsingContentVersion(PageWrapper page){
+        
+        ContentVersion cVersion = new ContentVersion();
+        cVersion.VersionData = EncodingUtil.base64Decode(page.imageData);
+        if(page.pageId != '') {
+            //update existing page
+            cVersion.Id = page.pageId;
+            Update cVersion;
+            return cVersion.Id;
+        }
+        //else insert new page
+        cVersion.ContentLocation = 'S';
+        cVersion.PathOnClient = 'image-' + System.now() + '.png';
+        cVersion.Origin = 'H';
+        cVersion.Title = 'image-' + System.now() + '.png';
+        cVersion.isMajorVersion = false; //to make the versionData editable
+        cVersion.Book__c = page.bookId;
+        Insert cVersion;
+        return cVersion.Id;
     }
 
     @AuraEnabled(cacheable = true)
@@ -33,26 +54,6 @@ public with sharing class scratchbook_cc {
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
-    }
-    
-    public static void saveUsingContentVersion(PageWrapper page){
-        
-        ContentVersion cVersion = new ContentVersion();
-        cVersion.VersionData = EncodingUtil.base64Decode(page.imageData);
-        if(page.pageId != '') {
-            //update existing page
-            cVersion.Id = page.pageId;
-            Update cVersion;
-            return;
-        }
-        //else insert new page
-        cVersion.ContentLocation = 'S';
-        cVersion.PathOnClient = 'image-' + System.now() + '.png';
-        cVersion.Origin = 'H';
-        cVersion.Title = 'image-' + System.now() + '.png';
-        cVersion.isMajorVersion = false; //to make the versionData editable
-        cVersion.Book__c = page.bookId;
-        Insert cVersion;
     }
 
     @AuraEnabled

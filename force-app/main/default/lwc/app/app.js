@@ -78,17 +78,20 @@ export default class App extends LightningElement {
     handleSaveClick(event){
         //convert to png image as dataURL in the format of 'data:image/png;base64,base64value'
         var temp = Object.assign({}, this.page);
-        console.log(temp.pageId);
         temp.imageData = canvasElement.toDataURL("image/png").replace(/^data:image\/(png|jpg);base64,/, "");
-        var params = {};
-        params.pageId = temp.pageId ? temp.pageId : '';
-        params.imageData = temp.imageData;
-        params.bookId = this.bookId;
-        // console.log(JSON.stringify(this.page));
-        savePage({ requestStructure : JSON.stringify(params)})
+        var reqParams = {};
+        reqParams.pageId = temp.pageId ? temp.pageId : '';
+        reqParams.imageData = temp.imageData;
+        reqParams.bookId = this.bookId;
+        savePage({ requestStructure : JSON.stringify(reqParams)})
             .then(result => {
-                console.log('savePage result - ' + result);
-                this.refresh();
+                var temp = Object.assign({}, this.page);
+                if(!temp.pageId) {
+                    temp.pageId = result;
+                    this.page = temp;
+                }
+                this.createToast();
+                //this.refresh();
             })
             .catch(error => {
                 console.log(JSON.stringify(error));
@@ -112,7 +115,6 @@ export default class App extends LightningElement {
         getPages({ bookId : this.bookId })
             .then(result =>{
                 this.pages = result;
-                // console.log(JSON.stringify(result));
             })
             .catch(error =>{
                 console.log(JSON.stringify(error));
@@ -144,5 +146,14 @@ export default class App extends LightningElement {
     handleNewClick(){
         ctx.clearRect(0, 0, canvasElement.width, canvasElement.height);
         this.page = {};
+    }
+
+    // toast
+    createToast() {
+        var tc = this.template.querySelector(".toast-container");
+        tc.style.top = '4px';
+        setTimeout(() => {
+            tc.style.top = '-32px';
+        }, 1500);
     }
 }
