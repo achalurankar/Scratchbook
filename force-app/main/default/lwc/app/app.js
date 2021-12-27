@@ -91,7 +91,7 @@ export default class App extends LightningElement {
                     this.page = temp;
                 }
                 this.createToast();
-                //this.refresh();
+                this.refresh();
             })
             .catch(error => {
                 console.log(JSON.stringify(error));
@@ -114,6 +114,7 @@ export default class App extends LightningElement {
     loadPages(){
         getPages({ bookId : this.bookId })
             .then(result =>{
+                console.log('length ' + result.length);
                 this.pages = result;
             })
             .catch(error =>{
@@ -122,8 +123,8 @@ export default class App extends LightningElement {
     }
 
     refresh() {
-        location.reload();
-        //this.loadPages();
+        //location.reload();
+        this.loadPages();
     }
     
     handleImageSelect(event){
@@ -151,9 +152,11 @@ export default class App extends LightningElement {
     // toast
     createToast() {
         var tc = this.template.querySelector(".toast-container");
-        tc.style.top = '4px';
+        tc.style.display = 'block';
+        tc.style.top = '10px';
         setTimeout(() => {
-            tc.style.top = '-32px';
+            tc.style.top = '-33px';
+            tc.style.display = 'none';
         }, 1500);
     }
 }

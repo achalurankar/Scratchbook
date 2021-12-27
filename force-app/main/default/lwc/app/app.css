@@ -98,20 +98,30 @@
 }
 
 /* toast */
-.toast-container {
-    position: absolute;
-    width: 150px;
-    height: 2rem;
-    top: -32px;
-    right: 50%;
-    align-items: center;
+.toast-container {position: absolute;
+    width: 300px;
+    height: 40px;
+    top: -33px;
+    right: 0px;
+    left: 0px;
+    margin: auto;
     transition: top .5s;
 }
 
 .toast {
-    background-color: green;
+    background-color: #00FF6D;
     color: white;
-    height: 100%;
     padding: 5px;
-    font-size: 14px;
+    display: flex;
+    font-size: 1.2vw;
+    flex-flow: row;
+    position: absolute;
+}
+
+.response-svg {
+    margin: auto;
+}
+
+span {
+    margin-left: 4px;
 }

@@ -36,7 +36,7 @@ public with sharing class scratchbook_cc {
         return cVersion.Id;
     }
 
-    @AuraEnabled(cacheable = true)
+    @AuraEnabled
     public static List<PageWrapper> getPages(string bookId){
         try {
             //for content version
