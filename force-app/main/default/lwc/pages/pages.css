@@ -1,0 +1,122 @@
+:host {
+    --box-shadow : #696969;
+    --success : #50C878;
+    --error: #dc3545;
+}
+
+.board {
+    border:1px solid rgb(136, 135, 135);
+    position: absolute;
+    top : 0px;
+    left: 0px;
+    z-index: -1;
+    transition: margin-left .5s;
+}
+
+/* The sidebar menu */
+.sidebar {
+    height: 100%; /* 100% Full-height */
+    width: 0; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Stay on top */
+    top: 0;
+    left: 0;
+    background-color: white;
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 60px; /* Place content 60px from the top */
+    transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
+    border: 1px solid black;
+}
+
+.sidebar .heading {
+    position: absolute;
+    top: 8px;
+    left: 10px;
+    font-size: 30px;
+}
+
+/* The button used to open the sidebar */
+.togglebtn {
+    position: absolute;
+    top: 7px;
+}
+
+.openbtn:hover {
+    background-color: #444;
+}
+
+/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+.main {
+    margin-left: 0px;
+    transition: margin-left .5s; /* If you want a transition effect */
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+    .sidebar {padding-top: 15px;}
+    .sidebar a {font-size: 18px;}
+}
+  
+/*list view*/
+.column {
+    position: relative;
+    float: left;
+    width: 100%;
+    padding: 10px;
+}
+
+.row {
+    content: "";
+    display: table;
+    clear: both;
+}
+  
+.action-btns {
+    position: absolute;
+    right: 15px;
+    top: 7px;
+    display: flex;
+}
+
+.action-btn {    
+    background-color: white;
+    color: black;
+    border: none;
+    cursor: pointer;
+    margin-left: 19px;
+    padding: 10px;
+    border-radius: 30px;
+    box-shadow: 0px 0px 11px 2px var(--box-shadow);
+}
+
+/* toast */
+.toast-container {
+    position: absolute;
+    width: 300px;
+    height: 40px;
+    top: -50px;
+    right: 0px;
+    left: 0px;
+    margin: auto;
+    transition: top .5s;
+}
+
+.toast {
+    background-color: var(--success);
+    color: white;
+    padding: 10px;
+    display: flex;
+    font-size: 1.2vw;
+    flex-flow: row;
+    position: absolute;
+    border-radius: 5px;
+    box-shadow: 0px 0px 11px 2px #696969;
+}
+
+.response-svg {
+    margin: auto;
+}
+
+span {
+    margin-left: 10px;
+}
