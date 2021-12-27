@@ -90,11 +90,9 @@ export default class App extends LightningElement {
         if(main.style.marginLeft == '0px' || this.init){
             this.toggleTitle = '<<';
             this.init = false;
-            console.log('true');
             sidebar.style.width = "250px";
             main.style.marginLeft = "250px";
         } else {
-            console.log('false');
             this.toggleTitle = '>>';
             sidebar.style.width = "0px";
             main.style.marginLeft = "0px";
