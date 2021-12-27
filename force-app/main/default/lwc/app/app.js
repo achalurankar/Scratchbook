@@ -16,6 +16,7 @@ export default class App extends LightningElement {
     @api page;
     @track pages;
     @track responseMsg = 'Page has been updated!';
+    @track toggleTitle = '>>';
     bookId = 'a005j0000057CczAAE';
 
     connectedCallback(){
@@ -25,6 +26,7 @@ export default class App extends LightningElement {
         this.loadPages();
     }
 
+    // html canvas methods
     renderedCallback(){
         canvasElement = this.template.querySelector('canvas');
         ctx = canvasElement.getContext("2d");
@@ -79,41 +81,24 @@ export default class App extends LightningElement {
         };
         image.src = page.imageData;
     }
-
-    handleSaveClick(event){
-        //convert to png image as dataURL in the format of 'data:image/png;base64,base64value'
-        let temp = Object.assign({}, this.page);
-        temp.imageData = canvasElement.toDataURL("image/png").replace(/^data:image\/(png|jpg);base64,/, "");
-        let reqParams = {};
-        reqParams.pageId = temp.pageId ? temp.pageId : '';
-        reqParams.imageData = temp.imageData;
-        reqParams.bookId = this.bookId;
-        savePage({ requestStructure : JSON.stringify(reqParams)})
-            .then(result => {
-                let temp = Object.assign({}, this.page);
-                if(!temp.pageId) {
-                    temp.pageId = result;
-                    this.page = temp;
-                }
-                this.createToast('Your page has been saved!');
-                this.refresh();
-            })
-            .catch(error => {
-                console.log(JSON.stringify(error));
-            });
-    }
     
+    init = true;
     /*side bar functions*/
-    /* Set the width of the sidebar to 250px and the left margin of the page content to 250px */
-    openNav() {
-        this.template.querySelector(".sidebar").style.width = "250px";
-        this.template.querySelector(".main").style.marginLeft = "250px";
-    }
-    
-    /* Set the width of the sidebar to 0 and the left margin of the page content to 0 */
-    closeNav() {
-        this.template.querySelector(".sidebar").style.width = "0";
-        this.template.querySelector(".main").style.marginLeft = "0";
+    toggleNav() {
+        let sidebar = this.template.querySelector(".sidebar");
+        let main = this.template.querySelector(".main");
+        if(main.style.marginLeft == '0px' || this.init){
+            this.toggleTitle = '<<';
+            this.init = false;
+            console.log('true');
+            sidebar.style.width = "250px";
+            main.style.marginLeft = "250px";
+        } else {
+            console.log('false');
+            this.toggleTitle = '>>';
+            sidebar.style.width = "0px";
+            main.style.marginLeft = "0px";
+        }
     }
 
     loadPages(){
@@ -156,9 +141,33 @@ export default class App extends LightningElement {
             });
     }
 
+    // action buttons new and save
     handleNewClick(){
         ctx.clearRect(0, 0, canvasElement.width, canvasElement.height);
         this.page = {};
+    }
+
+    handleSaveClick(event){
+        //convert to png image as dataURL in the format of 'data:image/png;base64,base64value'
+        let temp = Object.assign({}, this.page);
+        temp.imageData = canvasElement.toDataURL("image/png").replace(/^data:image\/(png|jpg);base64,/, "");
+        let reqParams = {};
+        reqParams.pageId = temp.pageId ? temp.pageId : '';
+        reqParams.imageData = temp.imageData;
+        reqParams.bookId = this.bookId;
+        savePage({ requestStructure : JSON.stringify(reqParams)})
+            .then(result => {
+                let temp = Object.assign({}, this.page);
+                if(!temp.pageId) {
+                    temp.pageId = result;
+                    this.page = temp;
+                }
+                this.createToast('Your page has been saved!');
+                this.refresh();
+            })
+            .catch(error => {
+                console.log(JSON.stringify(error));
+            });
     }
 
     // toast

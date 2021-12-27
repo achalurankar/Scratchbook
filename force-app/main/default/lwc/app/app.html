@@ -2,8 +2,7 @@
     <!-- sidebar for pages -->
     <div class="sidebar">
         <div class="heading">Your Pages</div>
-        <a href="javascript:void(0)" class="closebtn" onclick={closeNav}>&times;</a>
-        
+
         <div class="row">
             <template for:each={pages} for:item="page">
                 <div class="column" key={page.pageId}>
@@ -14,7 +13,7 @@
     </div>
         
     <div class="main">
-        <button class="openbtn" onclick={openNav}>></button>
+        <button class="togglebtn" onclick={toggleNav}>{toggleTitle}</button>
     </div>
 
     <!-- canvas board for scratching -->

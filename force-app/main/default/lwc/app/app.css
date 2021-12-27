@@ -28,15 +28,6 @@
     border: 1px solid black;
 }
 
-/* Position and style the close button (top right corner) */
-.sidebar .closebtn {
-    position: absolute;
-    top: 0;
-    right: 10px;
-    font-size: 36px;
-    margin-left: 50px;
-}
-
 .sidebar .heading {
     position: absolute;
     top: 8px;
@@ -45,7 +36,7 @@
 }
 
 /* The button used to open the sidebar */
-.openbtn {
+.togglebtn {
     cursor: pointer;
     left: 0px;
     background-color: #111;
@@ -59,6 +50,7 @@
 
 /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
 .main {
+    margin-left: 0px;
     transition: margin-left .5s; /* If you want a transition effect */
 }
 
