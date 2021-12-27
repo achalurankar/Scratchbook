@@ -1,9 +1,14 @@
+:host {
+    --delete: #dc3545;
+    --image-border-color: black;
+}
+
 .image {
     height: 125px;
     width: 250px;
     padding: 10px;
     margin: 0px;
-    border: 1px solid black;
+    border: 1px solid var(--image-border-color);
 }
 
 .image:hover {
@@ -17,14 +22,16 @@
 
 svg {
     margin-top: 5px;
-    padding: 4px;
+    padding: 6px;
+    color: var(--delete);
+    border: 0.5px solid var(--delete);
+    border-radius: 30px;
 }
 
 svg:hover {
     color : white;
-    background-color: rgb(245, 80, 80);
+    background-color: var(--delete);
     border: 1px solid white;
     border-radius: 15px;
     cursor: pointer;
-    text-shadow: rgb(255, 186, 186);
 }
