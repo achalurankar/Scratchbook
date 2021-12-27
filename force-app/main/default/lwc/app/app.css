@@ -1,7 +1,7 @@
-.pageStatus{
-    margin-left: 100px;
-    font-family: "Segoe UI", Arial, sans-serif;
-    transition: margin-left .5s;
+:host {
+    --box-shadow : #696969;
+    --success : #50C878;
+    --error: #dc3545;
 }
 
 .board {
@@ -86,11 +86,12 @@
     margin-left: 19px;
     padding: 10px;
     border-radius: 30px;
-    box-shadow: 0px 0px 11px 2px #696969;
+    box-shadow: 0px 0px 11px 2px var(--box-shadow);
 }
 
 /* toast */
-.toast-container {position: absolute;
+.toast-container {
+    position: absolute;
     width: 300px;
     height: 40px;
     top: -50px;
@@ -101,7 +102,7 @@
 }
 
 .toast {
-    background-color: #50C878;
+    background-color: var(--success);
     color: white;
     padding: 10px;
     display: flex;

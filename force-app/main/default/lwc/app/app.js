@@ -16,7 +16,6 @@ export default class App extends LightningElement {
     @api page;
     @track pages;
     @track responseMsg = 'Page has been updated!';
-    @track toggleTitle = '>>';
     bookId = 'a005j0000057CczAAE';
 
     connectedCallback(){
@@ -88,12 +87,10 @@ export default class App extends LightningElement {
         let sidebar = this.template.querySelector(".sidebar");
         let main = this.template.querySelector(".main");
         if(main.style.marginLeft == '0px' || this.init){
-            this.toggleTitle = '<<';
             this.init = false;
             sidebar.style.width = "250px";
             main.style.marginLeft = "250px";
         } else {
-            this.toggleTitle = '>>';
             sidebar.style.width = "0px";
             main.style.marginLeft = "0px";
         }
@@ -131,7 +128,7 @@ export default class App extends LightningElement {
                     temp.pageId = undefined;
                     this.page = temp;
                 }
-                this.createToast('Page has been deleted!');
+                this.createToast('success', 'Page has been deleted!');
                 this.refresh();
             })
             .catch(error => {
@@ -160,7 +157,7 @@ export default class App extends LightningElement {
                     temp.pageId = result;
                     this.page = temp;
                 }
-                this.createToast('Your page has been saved!');
+                this.createToast('success', 'Your page has been saved!');
                 this.refresh();
             })
             .catch(error => {
@@ -168,15 +165,22 @@ export default class App extends LightningElement {
             });
     }
 
+    success;
     // toast
-    createToast(msg) {
-        var tc = this.template.querySelector(".toast-container");
-        tc.style.display = 'block';
+    createToast(type, msg) {
+        let tc = this.template.querySelector(".toast-container");
+        let toast = this.template.querySelector(".toast");
+        if(type === 'success'){
+            this.success = true;
+            toast.style.backgroundColor  = '#50C878';
+        }else{
+            this.success = false;
+            toast.style.backgroundColor  = '#dc3545';
+        }
         tc.style.top = '13px';
         this.responseMsg = msg;
         setTimeout(() => {
             tc.style.top = '-50px';
-            tc.style.display = 'none';
         }, 2000);
     }
 }
