@@ -174,10 +174,10 @@ export default class App extends LightningElement {
     createToast(msg) {
         var tc = this.template.querySelector(".toast-container");
         tc.style.display = 'block';
-        tc.style.top = '10px';
-        // this.responseMsg = msg;
+        tc.style.top = '13px';
+        this.responseMsg = msg;
         setTimeout(() => {
-            tc.style.top = '-33px';
+            tc.style.top = '-50px';
             tc.style.display = 'none';
         }, 2000);
     }
