@@ -62,7 +62,7 @@ public with sharing class scratchbook_cc {
             Id cdid = [SELECT ContentDocumentId FROM ContentVersion WHERE Id = :pageId].ContentDocumentId;
             ContentDocument cd = new ContentDocument(Id = cdid);
             delete cd;
-            return 'Deleted';
+            return pageId;
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }

@@ -52,6 +52,10 @@ export default class App extends LightningElement {
                 isDrawing = false;
             }
         });
+        
+        this.template.addEventListener('keydown', e => {
+            console.log(e.key);
+        })
     }
 
     drawLine(x1, y1, x2, y2) {
