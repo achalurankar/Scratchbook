@@ -15,6 +15,7 @@ export default class App extends LightningElement {
     @api width;
     @api page;
     @track pages;
+    @track responseMsg = 'Page has been updated!';
     bookId = 'a005j0000057CczAAE';
 
     connectedCallback(){
@@ -81,20 +82,20 @@ export default class App extends LightningElement {
 
     handleSaveClick(event){
         //convert to png image as dataURL in the format of 'data:image/png;base64,base64value'
-        var temp = Object.assign({}, this.page);
+        let temp = Object.assign({}, this.page);
         temp.imageData = canvasElement.toDataURL("image/png").replace(/^data:image\/(png|jpg);base64,/, "");
-        var reqParams = {};
+        let reqParams = {};
         reqParams.pageId = temp.pageId ? temp.pageId : '';
         reqParams.imageData = temp.imageData;
         reqParams.bookId = this.bookId;
         savePage({ requestStructure : JSON.stringify(reqParams)})
             .then(result => {
-                var temp = Object.assign({}, this.page);
+                let temp = Object.assign({}, this.page);
                 if(!temp.pageId) {
                     temp.pageId = result;
                     this.page = temp;
                 }
-                this.createToast();
+                this.createToast('Your page has been saved!');
                 this.refresh();
             })
             .catch(error => {
@@ -140,7 +141,14 @@ export default class App extends LightningElement {
         var page = event.detail.page;
         deletePage({ pageId : page.pageId })
             .then(result => {
-                console.log('deletePage result - ' + result);
+                console.log('deletePage result id - ' + result);
+                //corner case
+                if(result == this.page.pageId) {
+                    let temp = Object.assign({}, this.page);
+                    temp.pageId = undefined;
+                    this.page = temp;
+                }
+                this.createToast('Page has been deleted!');
                 this.refresh();
             })
             .catch(error => {
@@ -154,13 +162,14 @@ export default class App extends LightningElement {
     }
 
     // toast
-    createToast() {
+    createToast(msg) {
         var tc = this.template.querySelector(".toast-container");
         tc.style.display = 'block';
         tc.style.top = '10px';
+        // this.responseMsg = msg;
         setTimeout(() => {
             tc.style.top = '-33px';
             tc.style.display = 'none';
-        }, 1500);
+        }, 2000);
     }
 }
