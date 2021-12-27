@@ -16,7 +16,7 @@ export default class Pages extends LightningElement {
     @api page;
     @track pages;
     @track responseMsg = 'Page has been updated!';
-    bookId = 'a005j0000057CczAAE';
+    @api bookId;
 
     connectedCallback(){
         this.page = {};

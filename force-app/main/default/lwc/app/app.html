@@ -1,8 +1,8 @@
 <template>
     <template if:true={primary}>
-        <c-books></c-books>
+        <c-books onbookclick={handleBookClick}></c-books>
     </template>
     <template if:false={primary}>
-        <c-pages></c-pages>
+        <c-pages book-id={bookId}></c-pages>
     </template>
 </template>

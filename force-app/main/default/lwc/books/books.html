@@ -1,3 +1,7 @@
 <template>
-    
+    <div class="books">
+        <template for:each={books} for:item="book">
+            <div key={book.Id} data-id={book.Id} onclick={handleBookClick} class="book">{book.Id}</div>
+        </template>
+    </div>
 </template>

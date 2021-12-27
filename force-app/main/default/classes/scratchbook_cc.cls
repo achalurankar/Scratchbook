@@ -67,6 +67,15 @@ public with sharing class scratchbook_cc {
             throw new AuraHandledException(e.getMessage());
         }
     }
+
+    @AuraEnabled
+    public static List<Book__c> getBooks(){
+        try {
+            return [SELECT Id FROM Book__c];
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
     
     public class PageWrapper {
         @AuraEnabled public string bookId;
