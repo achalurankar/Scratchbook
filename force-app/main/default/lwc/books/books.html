@@ -1,7 +1,7 @@
 <template>
     <div class="books">
         <template for:each={books} for:item="book">
-            <div key={book.Id} data-id={book.Id} onclick={handleBookClick} class="book">
+            <div key={book.bookId} data-id={book.bookId} onclick={handleBookClick} class="book">
                 <img class="preview" src="https://media.istockphoto.com/vectors/sketch-book-line-icon-vector-id1267218101?k=20&m=1267218101&s=612x612&w=0&h=nAD3fuw7-9vTeX2UA0wkkrK95cAsYpVcxWdCnJq2KBc=">
                 <div class="text">
                     <span style="float: left;">{book.bookName}</span>
