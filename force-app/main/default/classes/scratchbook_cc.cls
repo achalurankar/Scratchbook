@@ -59,8 +59,10 @@ public with sharing class scratchbook_cc {
     @AuraEnabled
     public static string deletePage(string pageId){
         try {
-            Id cdid = [SELECT ContentDocumentId FROM ContentVersion WHERE Id = :pageId].ContentDocumentId;
+            ContentVersion cv = [SELECT ContentDocumentId FROM ContentVersion WHERE Id = :pageId];
+            Id cdid = cv.ContentDocumentId;
             ContentDocument cd = new ContentDocument(Id = cdid);
+            update cv; //for content version to trigger to set date updated
             delete cd;
             return pageId;
         } catch (Exception e) {
@@ -72,7 +74,7 @@ public with sharing class scratchbook_cc {
     public static List<BookWrapper> getBooks(){
         try {
             List<BookWrapper> bws = new List<BookWrapper>();
-            List<Book__c> books = [SELECT Id, Name, Description__c, (SELECT Id FROM Content_Versions__r) FROM Book__c];
+            List<Book__c> books = [SELECT Id, Name, Description__c, (SELECT Id FROM Content_Versions__r) FROM Book__c ORDER BY Date_Updated__c DESC];
             for(Book__c book : books) {
                 BookWrapper bw = new BookWrapper();
                 bw.id = book.Id;
