@@ -7,18 +7,24 @@
             </header>
             <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
                 <!-- body -->
-                <div class="slds-form-element">
-                    <label class="slds-form-element__label" for="text-input-id-47">
-                    <abbr class="slds-required" title="required">* </abbr>Input Label</label>
-                    <div class="slds-form-element__control">
-                        <input type="text" id="text-input-id-47" placeholder="Placeholder text…" required="" class="slds-input" />
+                <template for:each={fields} for:item="field">
+                    <div key={field.label} class="slds-form-element">
+                        <label class="slds-form-element__label">
+                            <template if:true={field.required}>
+                                <abbr class="slds-required" title="required">* </abbr>
+                            </template>
+                            {field.label}
+                        </label>
+                        <div class="slds-form-element__control">
+                            <input type="text" data-id={field.uniqueName} placeholder="Enter value…" value={field.value} required={field.required} class="slds-input" />
+                        </div>
                     </div>
-                </div>
+                </template>
             </div>
             <footer class="slds-modal__footer">
                 <!-- footer -->
                 <button class="slds-button slds-button_neutral" onclick={handleCancelClick}>Cancel</button>
-                <button class="slds-button slds-button_brand">Save</button>
+                <button class="slds-button slds-button_brand" onclick={handleSaveClick}>Save</button>
             </footer>
         </div>
     </section>

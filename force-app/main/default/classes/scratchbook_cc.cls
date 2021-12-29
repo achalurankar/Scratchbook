@@ -77,11 +77,28 @@ public with sharing class scratchbook_cc {
                 BookWrapper bw = new BookWrapper();
                 bw.id = book.Id;
                 bw.name = book.Name;
-                bw.description = book.Description__c;
+                bw.description = book.Description__c  == null ? 'No Description' : book.Description__c;
                 bw.pageCount = book.Content_Versions__r.size();
                 bws.add(bw);
             }
             return bws;
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
+
+    @AuraEnabled
+    public static Id saveBook(string requestStructure){
+        try {
+            BookWrapper wrapper = (BookWrapper) JSON.deserialize(requestStructure, BookWrapper.class);
+            Book__c book = new Book__c();
+            if(wrapper.id != '') {
+                book.Id = wrapper.id;
+            }
+            book.Name = wrapper.name;
+            book.Description__c = wrapper.description;
+            upsert book;
+            return book.Id;
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }

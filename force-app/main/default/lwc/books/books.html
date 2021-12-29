@@ -30,7 +30,8 @@
     <template if:true={showModal}>
         <c-modal
             modal-header="Enter Book Details"
-            selected-item={selectedBook}
+            fields={fields}
+            onsave={handleSave}
             oncancel={hideModal}></c-modal>
     </template>
     <!-- modal cmp end -->
