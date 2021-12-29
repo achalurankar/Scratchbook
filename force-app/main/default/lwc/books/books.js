@@ -2,12 +2,13 @@ import { LightningElement, track, api } from 'lwc';
 
 import getBooks from '@salesforce/apex/scratchbook_cc.getBooks';
 import saveBook from '@salesforce/apex/scratchbook_cc.saveBook';
+import deleteBook from '@salesforce/apex/scratchbook_cc.deleteBook';
 import { dispatchEvent } from 'c/utils';
 
 export default class Books extends LightningElement {
 
     @track books;
-    @track showModal;
+    @track showModal; //flag to toggle modal
     idVsBookMap; //map to get book object from its id, mapped in getBooks method
     @track selectedBook;
     fields; //fields required on edit book modal
@@ -21,32 +22,34 @@ export default class Books extends LightningElement {
             .then(result => {
                 this.books = result;
                 this.idVsBookMap = {};
+                //mapping book record with its id
                 result.forEach(element => {
                     this.idVsBookMap[`${element.id}`] = element;
                 });
-                // console.log('result ' + JSON.stringify(result));
-                // console.log('idVsBookMap ' + JSON.stringify(this.idVsBookMap));
             })
             .catch(error => {
                 console.log(JSON.stringify(error));
             });
     }
 
+    // open selected book in pages component
     handleBookClick(event){
         let bookId = event.currentTarget.dataset.id;
         dispatchEvent(this, 'bookclick', { bookId : bookId });
     }
 
+    //hide modal by setting flag to false
     hideModal(){
         this.showModal = false;
     }
 
+    //new book creation
     handleNewBookClick(){
-        //emptying old values for fields for new book
         this.fields = this.getFields("", "");
         this.showModal = true;
     }
 
+    //edit selected book
     handleEditBookClick(event){
         let bookId = event.currentTarget.dataset.id;
         this.selectedBook = this.idVsBookMap[`${bookId}`];
@@ -54,7 +57,21 @@ export default class Books extends LightningElement {
         // console.log('selectedBook ' + JSON.stringify(this.fields));
         this.showModal = true;
     }
+    
+    //delete selected book
+    handleDeleteBookClick(event){
+        let bookId = event.currentTarget.dataset.id;
+        deleteBook({ bookId : bookId})
+            .then(result => {
+                console.log('deleted book with id ' + result);
+                this.loadBooks();
+            })
+            .catch(error => {
+                console.log(JSON.stringify(error));
+            });
+    }
 
+    //saving details received from modal component as updatedFields
     handleSave(event){
         let updatedFields = event.detail.updatedFields;
         // console.log(JSON.stringify(updatedFields));

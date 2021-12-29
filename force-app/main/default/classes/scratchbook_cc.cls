@@ -104,6 +104,18 @@ public with sharing class scratchbook_cc {
         }
     }
 
+    @AuraEnabled
+    public static string deleteBook(string bookId){
+        try {
+            Book__c book = new Book__c();
+            book.Id = bookId;
+            delete book;
+            return bookId;
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
+
     public class BookWrapper {
         @AuraEnabled public string id;
         @AuraEnabled public string name;
