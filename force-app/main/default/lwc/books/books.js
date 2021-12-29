@@ -15,6 +15,7 @@ export default class Books extends LightningElement {
         getBooks()
             .then(result => {
                 this.books = result;
+                console.log('result ' + JSON.stringify(result));
             })
             .catch(error => {
                 console.log(JSON.stringify(error));
@@ -25,4 +26,4 @@ export default class Books extends LightningElement {
         let bookId = event.currentTarget.dataset.id;
         dispatchEvent(this, 'bookclick', { bookId : bookId });
     }
-}
+} 

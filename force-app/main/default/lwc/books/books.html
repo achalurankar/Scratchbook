@@ -1,13 +1,21 @@
 <template>
     <div class="books">
         <template for:each={books} for:item="book">
-            <div key={book.bookId} data-id={book.bookId} onclick={handleBookClick} class="book">
+            <div key={book.id} data-id={book.id} onclick={handleBookClick} class="book">
                 <img class="preview" src="https://media.istockphoto.com/vectors/sketch-book-line-icon-vector-id1267218101?k=20&m=1267218101&s=612x612&w=0&h=nAD3fuw7-9vTeX2UA0wkkrK95cAsYpVcxWdCnJq2KBc=">
                 <div class="text">
-                    <span style="float: left;">{book.bookName}</span>
-                    <span style="float: right;">{book.pagesCount} Pages</span>
+                    <div>
+                        <span class="f-left">{book.name}</span>
+                        <span class="f-right">{book.pageCount} Pages</span>
+                    </div>
+                    <span class="description">{book.description}</span>
                 </div>
             </div>
         </template>
     </div>
+
+    <!-- modal to edit book name and description -->
+    <c-modal
+        modal-header="Enter Book Details"></c-modal>
+    <!-- modal cmp end -->
 </template>

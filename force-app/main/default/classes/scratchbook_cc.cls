@@ -72,12 +72,13 @@ public with sharing class scratchbook_cc {
     public static List<BookWrapper> getBooks(){
         try {
             List<BookWrapper> bws = new List<BookWrapper>();
-            List<Book__c> books = [SELECT Id, Name, (SELECT Id FROM Content_Versions__r) FROM Book__c];
+            List<Book__c> books = [SELECT Id, Name, Description__c, (SELECT Id FROM Content_Versions__r) FROM Book__c];
             for(Book__c book : books) {
                 BookWrapper bw = new BookWrapper();
-                bw.bookId = book.Id;
-                bw.bookName = book.Name;
-                bw.pagesCount = book.Content_Versions__r.size();
+                bw.id = book.Id;
+                bw.name = book.Name;
+                bw.description = book.Description__c;
+                bw.pageCount = book.Content_Versions__r.size();
                 bws.add(bw);
             }
             return bws;
@@ -87,10 +88,11 @@ public with sharing class scratchbook_cc {
     }
 
     public class BookWrapper {
-        @AuraEnabled public string bookId;
-        @AuraEnabled public string bookName;
+        @AuraEnabled public string id;
+        @AuraEnabled public string name;
+        @AuraEnabled public string description;
         // @AuraEnabled public string previewData; // Binary fields cannot be selected in join queries
-        @AuraEnabled public integer pagesCount;
+        @AuraEnabled public integer pageCount;
     }
     
     public class PageWrapper {
