@@ -10,4 +10,8 @@ export default class App extends LightningElement {
         this.bookId = event.detail.bookId;
         this.primary = false;
     }
+
+    handleExitPages() {
+        this.primary = true;
+    }
 }

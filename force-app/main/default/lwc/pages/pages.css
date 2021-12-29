@@ -37,8 +37,7 @@
 
 /* The button used to open the sidebar */
 .togglebtn {
-    position: absolute;
-    top: 7px;
+    margin-top: 7px;
 }
 
 .openbtn:hover {
@@ -47,8 +46,9 @@
 
 /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
 .main {
-    margin-left: 0px;
-    transition: margin-left .5s; /* If you want a transition effect */
+    transition: margin-left .5s;
+    display: flex;
+    flex-direction: row;
 }
 
 /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
@@ -83,6 +83,8 @@
     color: black;
     border: none;
     cursor: pointer;
+    height: 40px;
+    width: 40px;
     margin-left: 19px;
     padding: 10px;
     border-radius: 30px;

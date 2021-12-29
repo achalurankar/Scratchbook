@@ -4,6 +4,7 @@ import savePage from '@salesforce/apex/scratchbook_cc.savePage';
 import deletePage from '@salesforce/apex/scratchbook_cc.deletePage';
 
 import { Colors } from 'c/utils';
+import { dispatchEvent } from 'c/utils';
 
 let isDrawing = false;
 let x = 0;
@@ -119,6 +120,7 @@ export default class Pages extends LightningElement {
         this.loadImage(this.page);
     }
 
+    //delete
     handleDeleteClick(event) {
         var page = event.detail.page;
         deletePage({ pageId : page.pageId })
@@ -138,12 +140,13 @@ export default class Pages extends LightningElement {
             });
     }
 
-    // action buttons new and save
+    // new
     handleNewClick(){
         ctx.clearRect(0, 0, canvasElement.width, canvasElement.height);
         this.page = {};
     }
 
+    // save
     handleSaveClick(event){
         //convert to png image as dataURL in the format of 'data:image/png;base64,base64value'
         let temp = Object.assign({}, this.page);
@@ -165,6 +168,10 @@ export default class Pages extends LightningElement {
             .catch(error => {
                 console.log(JSON.stringify(error));
             });
+    }
+
+    handleExitClick() {
+        dispatchEvent(this, 'exit', {});
     }
 
     success;

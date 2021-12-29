@@ -3,6 +3,6 @@
         <c-books onbookclick={handleBookClick}></c-books>
     </template>
     <template if:false={primary}>
-        <c-pages book-id={bookId}></c-pages>
+        <c-pages book-id={bookId} onexit={handleExitPages}></c-pages>
     </template>
 </template>
