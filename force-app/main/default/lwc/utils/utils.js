@@ -3,4 +3,9 @@ function dispatchEvent(ctx, name, params) {
     ctx.dispatchEvent(event);
 }
 
-export { dispatchEvent };
+const Colors = {
+    SUCCESS : '#50C878',
+    ERROR : '#DC3545'
+};
+
+export { dispatchEvent, Colors };

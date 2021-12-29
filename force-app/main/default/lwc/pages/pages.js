@@ -3,6 +3,8 @@ import getPages from '@salesforce/apex/scratchbook_cc.getPages';
 import savePage from '@salesforce/apex/scratchbook_cc.savePage';
 import deletePage from '@salesforce/apex/scratchbook_cc.deletePage';
 
+import { Colors } from 'c/utils';
+
 let isDrawing = false;
 let x = 0;
 let y = 0;
@@ -172,10 +174,10 @@ export default class Pages extends LightningElement {
         let toast = this.template.querySelector(".toast");
         if(type === 'success'){
             this.success = true;
-            toast.style.backgroundColor  = '#50C878';
+            toast.style.backgroundColor  = Colors.SUCCESS;
         }else{
             this.success = false;
-            toast.style.backgroundColor  = '#dc3545';
+            toast.style.backgroundColor  = Colors.ERROR;
         }
         tc.style.top = '13px';
         this.responseMsg = msg;
