@@ -6,6 +6,9 @@ import { dispatchEvent } from 'c/utils';
 export default class Books extends LightningElement {
 
     @track books;
+    @track showModal;
+    idVsBookMap;
+    @track selectedBook;
 
     connectedCallback() {
         this.loadBooks();
@@ -15,7 +18,12 @@ export default class Books extends LightningElement {
         getBooks()
             .then(result => {
                 this.books = result;
-                console.log('result ' + JSON.stringify(result));
+                this.idVsBookMap = {};
+                result.forEach(element => {
+                    this.idVsBookMap[`${element.id}`] = element;
+                });
+                // console.log('result ' + JSON.stringify(result));
+                // console.log('idVsBookMap ' + JSON.stringify(this.idVsBookMap));
             })
             .catch(error => {
                 console.log(JSON.stringify(error));
@@ -25,5 +33,20 @@ export default class Books extends LightningElement {
     handleBookClick(event){
         let bookId = event.currentTarget.dataset.id;
         dispatchEvent(this, 'bookclick', { bookId : bookId });
+    }
+
+    hideModal(){
+        this.showModal = false;
+    }
+
+    handleNewBookClick(){
+        this.showModal = true;
+    }
+
+    handleEditBookClick(event){
+        let bookId = event.currentTarget.dataset.id;
+        this.selectedBook = this.idVsBookMap[`${bookId}`];
+        // console.log('selectedBook ' + JSON.stringify(this.selectedBook));
+        this.showModal = true;
     }
 } 

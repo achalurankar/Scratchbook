@@ -13,7 +13,6 @@
     margin: 20px;
     width: 310px;
     text-align: center;
-    cursor: pointer;
     box-shadow: 8px 4px 6px 2px #696969;
 }
 
@@ -33,6 +32,7 @@
 img {
     height: 200px;
     width: 200px;
+    cursor: pointer;
 }
 
 .f-left {
@@ -50,6 +50,7 @@ img {
     margin-top: 10px;
     margin-left: -54px;
     border-radius: 20px;
+    cursor: pointer;
     box-shadow: 8px 4px 6px 2px #696969;
 }
 
@@ -58,6 +59,7 @@ img {
     position: absolute;
     border-radius: 20px;
     right: 0px;
+    cursor: pointer;
     top: 0px;
     margin: 30px 100px 0 0;
     box-shadow: 8px 4px 6px 2px #696969;
