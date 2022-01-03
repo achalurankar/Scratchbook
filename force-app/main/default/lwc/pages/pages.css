@@ -122,3 +122,43 @@
 span {
     margin-left: 10px;
 }
+
+/* different pens */
+.pen-container {
+    position: absolute;
+    height: 25px;
+    left: 10px; 
+    bottom: 5px;
+    display: flex;
+    flex-direction: row;
+    column-gap: 5px;
+}
+
+.pen {
+    height: 15px;
+    width: 15px;
+    align-self: center;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: width 0.2s, height 0.2s;
+}
+
+.red {
+    background-color: red;
+}
+.blue {
+    background-color: blue;
+}
+.yellow {
+    background-color: yellow;
+}
+.green {
+    background-color: green;
+}
+.black {
+    background-color: black;
+}
+
+.active {
+    box-shadow: 0px 0px 4px 0px #696969;
+}

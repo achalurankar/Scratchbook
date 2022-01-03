@@ -4,13 +4,17 @@ import savePage from '@salesforce/apex/scratchbook_cc.savePage';
 import deletePage from '@salesforce/apex/scratchbook_cc.deletePage';
 
 import { Colors } from 'c/utils';
-import { dispatchEvent } from 'c/utils';
+import { dispatchEvent, log } from 'c/utils';
 
 let isDrawing = false;
 let x = 0;
 let y = 0;
 
 let canvasElement, ctx; //storing canvas context
+
+//pens context
+let pencontainer;
+let pens;
 
 export default class Pages extends LightningElement {
 
@@ -20,11 +24,12 @@ export default class Pages extends LightningElement {
     @track pages;
     @track responseMsg = 'Page has been updated!';
     @api bookId;
+    @track selectedColor = 'black';
 
     connectedCallback(){
         this.page = {};
-        this.height = 595;
-        this.width = 1275;
+        this.height = 607;
+        this.width = 1278;
         this.loadPages();
     }
 
@@ -57,15 +62,12 @@ export default class Pages extends LightningElement {
                 isDrawing = false;
             }
         });
-        
-        this.template.addEventListener('keydown', e => {
-            console.log(e.key);
-        })
+        this.setPenListener();
     }
 
     drawLine(x1, y1, x2, y2) {
         ctx.beginPath();
-        ctx.strokeStyle = 'black';
+        ctx.strokeStyle = this.selectedColor;
         ctx.lineWidth = 1;
         ctx.moveTo(x1, y1);
         ctx.lineTo(x2, y2);
@@ -172,6 +174,27 @@ export default class Pages extends LightningElement {
 
     handleExitClick() {
         dispatchEvent(this, 'exit', {});
+    }
+
+    setPenListener() {
+        pencontainer = this.template.querySelector('.pen-container');
+        pens = pencontainer.childNodes;
+        pens.forEach(element => {
+            element.addEventListener('click', this.handlePenClick);
+        });
+    }
+
+    handlePenClick(event){
+        pens.forEach(element => {
+            element.classList.remove('active');
+            element.style.height = '15px';
+            element.style.width = '15px';
+        });
+        let pen = event.target; //get clicked element
+        pen.classList.add('active'); //add active to the class list
+        pen.style.height = '17px';
+        pen.style.width = '17px';
+        this.selectedColor = pen.classList[1]; //get color from class
     }
 
     success;
