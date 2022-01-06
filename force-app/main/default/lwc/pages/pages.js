@@ -21,7 +21,7 @@ export default class Pages extends LightningElement {
     @api height;
     @api width;
     @api page;
-    @track pages;
+    @track pages = [];
     @track responseMsg = 'Page has been updated!';
     @api bookId;
     @track selectedColor = 'black';
@@ -101,11 +101,33 @@ export default class Pages extends LightningElement {
         }
     }
 
+    navigator = 0; // initially on first page
+    leftClick(){
+        let curr = this.navigator - 1;
+        if(curr >= 0) {
+            this.loadImage(this.pages[curr]);
+            --this.navigator;
+        }
+    }
+
+    rightClick(){
+        let curr = this.navigator + 1;
+        if(curr < this.pages.length) {
+            this.loadImage(this.pages[curr]);
+            ++this.navigator;
+        }
+    }
+
+    first = true;
     loadPages(){
         getPages({ bookId : this.bookId })
             .then(result =>{
                 console.log('length ' + result.length);
                 this.pages = result;
+                if(this.pages.length > 0 && this.first){
+                    this.loadImage(this.pages[0]); // load page on board just for the first time opening this component
+                    this.first = false;
+                }
             })
             .catch(error =>{
                 console.log(JSON.stringify(error));
