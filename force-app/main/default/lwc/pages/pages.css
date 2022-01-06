@@ -28,6 +28,25 @@
     border: 1px solid black;
 }
 
+.sidebar::-webkit-scrollbar {
+    width: 10px;
+    cursor: pointer;
+}
+
+.sidebar::-webkit-scrollbar:hover {
+    cursor: pointer;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: #D3D3D3;        /* color of the tracking area */
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background-color: #A9A9A9;    /* color of the scroll thumb */
+    border-radius: 20px;       /* roundness of the scroll thumb */
+    border: 1px solid #D3D3D3;  /* creates padding around scroll thumb */
+}
+
 .sidebar .heading {
     position: absolute;
     top: 8px;
