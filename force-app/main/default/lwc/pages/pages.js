@@ -85,14 +85,12 @@ export default class Pages extends LightningElement {
         };
         image.src = page.imageData;
     }
-    
-    init = true;
+
     /*side bar functions*/
     toggleNav() {
         let sidebar = this.template.querySelector(".sidebar");
         let main = this.template.querySelector(".main");
-        if(main.style.marginLeft == '0px' || this.init){
-            this.init = false;
+        if(main.style.marginLeft == '0px'){
             sidebar.style.width = "250px";
             main.style.marginLeft = "250px";
         } else {
@@ -118,15 +116,15 @@ export default class Pages extends LightningElement {
         }
     }
 
-    first = true;
+    init = true;
     loadPages(){
         getPages({ bookId : this.bookId })
             .then(result =>{
                 console.log('length ' + result.length);
                 this.pages = result;
-                if(this.pages.length > 0 && this.first){
+                if(this.pages.length > 0 && this.init){
                     this.loadImage(this.pages[0]); // load page on board just for the first time opening this component
-                    this.first = false;
+                    this.init = false;
                 }
             })
             .catch(error =>{
