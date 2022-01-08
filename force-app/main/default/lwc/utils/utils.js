@@ -17,7 +17,18 @@ const Colors = {
 };
 
 function getColorCode(color) {
-    return "#FF0000";
+    switch(color){
+        case "blue":
+            return "#0000FF";
+        case "green":
+            return "#00FF00";
+        case "red":
+            return "#FF0000";
+        case "yellow":
+            return "#FFFF00";
+        case "black":
+            return "#000000";
+}
 }
 
 export { dispatchEvent, log, Colors, getColorCode };

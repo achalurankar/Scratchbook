@@ -3,21 +3,22 @@ import getPages from '@salesforce/apex/scratchbook_cc.getPages';
 import savePage from '@salesforce/apex/scratchbook_cc.savePage';
 import deletePage from '@salesforce/apex/scratchbook_cc.deletePage';
 
-import { Colors } from 'c/utils';
-import { dispatchEvent, log } from 'c/utils';
+import { dispatchEvent, log, Colors, getColorCode } from 'c/utils';
 
 let isDrawing = false;
 let x = 0;
 let y = 0;
 
-let canvasElement, ctx; //storing canvas context
+let canvasElement, ctx; // storing canvas context
 
-//pens context
+// pens context
 let pencontainer;
 let pens;
 
-//saving and restoring the canvas state using this
+// saving and restoring the canvas state using this
 let canvasStack = [];
+// holds whichever color is selected from stroke style of canvas
+let selectedColor = "black";
 
 export default class Pages extends LightningElement {
 
@@ -27,7 +28,6 @@ export default class Pages extends LightningElement {
     @track pages = [];
     @track responseMsg = 'Page has been updated!';
     @api book;
-    @track selectedColor = 'black';
 
     connectedCallback(){
         this.page = {};
@@ -71,7 +71,7 @@ export default class Pages extends LightningElement {
 
     drawLine(x1, y1, x2, y2) {
         ctx.beginPath();
-        ctx.strokeStyle = this.selectedColor;
+        ctx.strokeStyle = selectedColor;
         ctx.lineWidth = 1;
         ctx.moveTo(x1, y1);
         ctx.lineTo(x2, y2);
@@ -215,7 +215,7 @@ export default class Pages extends LightningElement {
         pen.classList.add('active'); //add active to the class list
         pen.style.height = '17px';
         pen.style.width = '17px';
-        this.selectedColor = pen.classList[1]; //get color from class
+        selectedColor = getColorCode(pen.classList[1]); //get color from class
     }
 
     success;
