@@ -20,11 +20,13 @@ let canvasStack = [];
 // holds whichever color is selected from stroke style of canvas
 let selectedColor = "black";
 // size of eraser, pen, line on canvas
-let lineWidth = 1, penSize = 1, eraserSize = 10;
+let lineWidth = 1, penSize = 1, eraserSize = 20;
 // page context
 let PageContext;
 // pen for scratching
 let marker;
+// eraser
+let eraser;
 
 export default class Pages extends LightningElement {
 
@@ -48,7 +50,7 @@ export default class Pages extends LightningElement {
         canvasElement = this.template.querySelector('canvas');
         ctx = canvasElement.getContext("2d");
         marker = this.template.querySelector(".marker");
-
+        eraser = this.template.querySelector(".eraser");
         // Add the event listeners for mousedown, mousemove, and mouseup
         canvasElement.addEventListener('mousedown', e => {
             e.preventDefault(); // to avoid text selection on mousemove
@@ -64,10 +66,17 @@ export default class Pages extends LightningElement {
                 y = e.offsetY;
             }
 
-            let top = e.offsetY - 35;
-            let left = e.offsetX;
-            marker.style.top = top + 'px';
-            marker.style.left = left + 'px';
+            if(lineWidth === eraserSize) {
+                let top = e.offsetY - 10;
+                let left = e.offsetX - 10;
+                eraser.style.top = top + 'px';
+                eraser.style.left = left + 'px';
+            } else {
+                let top = e.offsetY - 35;
+                let left = e.offsetX;
+                marker.style.top = top + 'px';
+                marker.style.left = left + 'px';
+            }
         });
         
         this.template.addEventListener('mouseup', e => {
@@ -288,8 +297,12 @@ export default class Pages extends LightningElement {
     handleEraserClick() {
         if(lineWidth === eraserSize) {
             lineWidth = penSize;
+            eraser.style.display = "none";
+            marker.style.display = "block";
         } else {
             lineWidth = eraserSize;
+            marker.style.display = "none";
+            eraser.style.display = "block";
         }
     }
 }
