@@ -19,6 +19,10 @@ let pens;
 let canvasStack = [];
 // holds whichever color is selected from stroke style of canvas
 let selectedColor = "black";
+// size of eraser, pen, line on canvas
+let lineWidth = 1, penSize = 1, eraserSize = 10;
+// page context
+let PageContext;
 
 export default class Pages extends LightningElement {
 
@@ -34,6 +38,7 @@ export default class Pages extends LightningElement {
         this.height = 607;
         this.width = 1278;
         this.loadPages();
+        PageContext = this;
     }
 
     // html canvas methods
@@ -71,8 +76,8 @@ export default class Pages extends LightningElement {
 
     drawLine(x1, y1, x2, y2) {
         ctx.beginPath();
-        ctx.strokeStyle = selectedColor;
-        ctx.lineWidth = 1;
+        ctx.strokeStyle = lineWidth === eraserSize ? "#FFFFFF" : selectedColor;
+        ctx.lineWidth = lineWidth;
         ctx.moveTo(x1, y1);
         ctx.lineTo(x2, y2);
         ctx.stroke();
@@ -216,6 +221,8 @@ export default class Pages extends LightningElement {
         pen.style.height = '17px';
         pen.style.width = '17px';
         selectedColor = getColorCode(pen.classList[1]); //get color from class
+        if(lineWidth === eraserSize)
+            PageContext.handleEraserClick();
     }
 
     success;
@@ -267,5 +274,13 @@ export default class Pages extends LightningElement {
             ctx.drawImage(image, 0, 0);
         };
         image.src = data;
+    }
+
+    handleEraserClick() {
+        if(lineWidth === eraserSize) {
+            lineWidth = penSize;
+        } else {
+            lineWidth = eraserSize;
+        }
     }
 }
