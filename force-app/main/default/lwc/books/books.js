@@ -35,7 +35,8 @@ export default class Books extends LightningElement {
     // open selected book in pages component
     handleBookClick(event){
         let bookId = event.currentTarget.dataset.id;
-        dispatchEvent(this, 'bookclick', { bookId : bookId });
+        let book = this.idVsBookMap[`${bookId}`];
+        dispatchEvent(this, 'bookclick', { book : book });
     }
 
     //hide modal by setting flag to false

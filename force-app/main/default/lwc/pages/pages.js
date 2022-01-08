@@ -26,7 +26,7 @@ export default class Pages extends LightningElement {
     @api page;
     @track pages = [];
     @track responseMsg = 'Page has been updated!';
-    @api bookId;
+    @api book;
     @track selectedColor = 'black';
 
     connectedCallback(){
@@ -102,6 +102,8 @@ export default class Pages extends LightningElement {
         let curr = this.navigator - 1;
         if(curr >= 0) {
             this.loadImage(this.pages[curr]);
+            canvasStack = [];
+            canvasStack.push(this.pages[curr].imageData);
             --this.navigator;
         }
     }
@@ -110,18 +112,21 @@ export default class Pages extends LightningElement {
         let curr = this.navigator + 1;
         if(curr < this.pages.length) {
             this.loadImage(this.pages[curr]);
+            canvasStack = [];
+            canvasStack.push(this.pages[curr].imageData);
             ++this.navigator;
         }
     }
 
     init = true;
     loadPages(){
-        getPages({ bookId : this.bookId })
+        getPages({ bookId : this.book.id })
             .then(result =>{
                 console.log('length ' + result.length);
                 this.pages = result;
                 if(this.pages.length > 0 && this.init){
                     this.loadImage(this.pages[0]); // load page on board just for the first time opening this component
+                    canvasStack.push(this.pages[0].imageData); // if first time undo is clicked after editing
                     this.init = false;
                 }
             })
@@ -174,7 +179,7 @@ export default class Pages extends LightningElement {
         let reqParams = {};
         reqParams.pageId = temp.pageId ? temp.pageId : '';
         reqParams.imageData = temp.imageData;
-        reqParams.bookId = this.bookId;
+        reqParams.bookId = this.book.id;
         savePage({ requestStructure : JSON.stringify(reqParams)})
             .then(result => {
                 let temp = Object.assign({}, this.page);
@@ -249,7 +254,7 @@ export default class Pages extends LightningElement {
         let currState = canvasElement.toDataURL("image/png")
         if(data === currState){
             data = canvasStack.pop();
-            canvasStack.push(data);
+            canvasStack.push(data); // pushing back the data as it might be needed for further edits
         }
         if(data) {
             this.putImageOnCanvas(data); 

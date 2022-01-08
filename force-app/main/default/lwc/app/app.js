@@ -4,10 +4,10 @@ export default class App extends LightningElement {
 
     //flag for rendering templates true for books template and false for page template
     @track primary = true;
-    @track bookId;
+    @track selectedBook;
 
     handleBookClick(event) {
-        this.bookId = event.detail.bookId;
+        this.selectedBook = event.detail.book;
         this.primary = false;
     }
 
