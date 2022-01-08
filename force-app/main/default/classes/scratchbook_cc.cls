@@ -40,7 +40,7 @@ public with sharing class scratchbook_cc {
     public static List<PageWrapper> getPages(string bookId){
         try {
             //for content version
-            List<ContentVersion> cvs = [SELECT Id, VersionData FROM ContentVersion WHERE Book__c = :bookId];
+            List<ContentVersion> cvs = [SELECT Id, VersionData FROM ContentVersion WHERE Book__c = :bookId ORDER BY CreatedDate];
             // System.System.debug(cvs.size());
             List<PageWrapper> pages = new List<PageWrapper>();
             for(ContentVersion cv : cvs) {
