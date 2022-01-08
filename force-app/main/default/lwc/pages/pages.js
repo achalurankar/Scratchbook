@@ -23,6 +23,8 @@ let selectedColor = "black";
 let lineWidth = 1, penSize = 1, eraserSize = 10;
 // page context
 let PageContext;
+// pen for scratching
+let marker;
 
 export default class Pages extends LightningElement {
 
@@ -45,6 +47,7 @@ export default class Pages extends LightningElement {
     renderedCallback(){
         canvasElement = this.template.querySelector('canvas');
         ctx = canvasElement.getContext("2d");
+        marker = this.template.querySelector(".marker");
 
         // Add the event listeners for mousedown, mousemove, and mouseup
         canvasElement.addEventListener('mousedown', e => {
@@ -60,6 +63,11 @@ export default class Pages extends LightningElement {
                 x = e.offsetX;
                 y = e.offsetY;
             }
+
+            let top = e.offsetY - 35;
+            let left = e.offsetX;
+            marker.style.top = top + 'px';
+            marker.style.left = left + 'px';
         });
         
         this.template.addEventListener('mouseup', e => {
@@ -221,6 +229,7 @@ export default class Pages extends LightningElement {
         pen.style.height = '17px';
         pen.style.width = '17px';
         selectedColor = getColorCode(pen.classList[1]); //get color from class
+        marker.style.color = selectedColor;
         if(lineWidth === eraserSize)
             PageContext.handleEraserClick();
     }

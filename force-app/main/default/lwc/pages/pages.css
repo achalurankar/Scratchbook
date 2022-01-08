@@ -4,7 +4,17 @@
     --error: #dc3545;
 }
 
+.marker {
+    cursor: none;
+    position: absolute;
+    height: 35px;
+    width: 35px;
+    color: black;
+    z-index: -2;
+}
+
 .board {
+    cursor: none;
     border:1px solid rgb(136, 135, 135);
     position: absolute;
     top : 0px;
