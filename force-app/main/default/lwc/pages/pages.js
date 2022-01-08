@@ -247,8 +247,10 @@ export default class Pages extends LightningElement {
     restore() {
         let data = canvasStack.pop();
         let currState = canvasElement.toDataURL("image/png")
-        if(data === currState)
+        if(data === currState){
             data = canvasStack.pop();
+            canvasStack.push(data);
+        }
         if(data) {
             this.putImageOnCanvas(data); 
         } else {
