@@ -47,7 +47,6 @@ export default class Pages extends LightningElement {
             x = e.offsetX;
             y = e.offsetY;
             isDrawing = true;
-            log('mousedown');
         });
         
         canvasElement.addEventListener('mousemove', e => {
@@ -106,7 +105,6 @@ export default class Pages extends LightningElement {
             canvasStack = [];
             canvasStack.push(this.pages[curr].imageData);
             --this.navigator;
-            log("after left navigation index " + this.navigator);
         }
     }
 
@@ -117,7 +115,6 @@ export default class Pages extends LightningElement {
             canvasStack = [];
             canvasStack.push(this.pages[curr].imageData);
             ++this.navigator;
-            log("after right navigation index " + this.navigator);
         }
     }
 
