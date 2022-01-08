@@ -16,6 +16,9 @@ let canvasElement, ctx; //storing canvas context
 let pencontainer;
 let pens;
 
+//saving and restoring the canvas state using this
+let canvasStack = [];
+
 export default class Pages extends LightningElement {
 
     @api height;
@@ -60,9 +63,10 @@ export default class Pages extends LightningElement {
                 x = 0;
                 y = 0;
                 isDrawing = false;
+                this.save(); // save canvas state
             }
         });
-        this.setPenListener();
+        this.setPenClickListener();
     }
 
     drawLine(x1, y1, x2, y2) {
@@ -73,17 +77,11 @@ export default class Pages extends LightningElement {
         ctx.lineTo(x2, y2);
         ctx.stroke();
         ctx.closePath();
-        // dispatchEvent(this, 'change', {});
     }
 
     loadImage(page){
         this.page = page;
-        var image = new Image();
-        image.onload = function() {
-            ctx.clearRect(0, 0, canvasElement.width, canvasElement.height);
-            ctx.drawImage(image, 0, 0);
-        };
-        image.src = page.imageData;
+        this.putImageOnCanvas(page.imageData);
     }
 
     /*side bar functions*/
@@ -196,7 +194,7 @@ export default class Pages extends LightningElement {
         dispatchEvent(this, 'exit', {});
     }
 
-    setPenListener() {
+    setPenClickListener() {
         pencontainer = this.template.querySelector('.pen-container');
         pens = pencontainer.childNodes;
         pens.forEach(element => {
@@ -234,5 +232,36 @@ export default class Pages extends LightningElement {
         setTimeout(() => {
             tc.style.top = '-50px';
         }, 2000);
+    }
+
+    handleUndoClick() {
+        this.restore();
+    }
+
+    save() {
+        let state = canvasElement.toDataURL("image/png");
+        canvasStack.push(state);
+        console.log(canvasStack.length);
+    }
+
+    restore() {
+        let data = canvasStack.pop();
+        let currState = canvasElement.toDataURL("image/png")
+        if(data === currState)
+            data = canvasStack.pop();
+        if(data) {
+            this.putImageOnCanvas(data); 
+        } else {
+            ctx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+        }
+    }
+
+    putImageOnCanvas(data) {
+        var image = new Image();
+        image.onload = function() {
+            ctx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+            ctx.drawImage(image, 0, 0);
+        };
+        image.src = data;
     }
 }
