@@ -47,6 +47,7 @@ export default class Pages extends LightningElement {
             x = e.offsetX;
             y = e.offsetY;
             isDrawing = true;
+            log('mousedown');
         });
         
         canvasElement.addEventListener('mousemove', e => {
@@ -105,6 +106,7 @@ export default class Pages extends LightningElement {
             canvasStack = [];
             canvasStack.push(this.pages[curr].imageData);
             --this.navigator;
+            log("after left navigation index " + this.navigator);
         }
     }
 
@@ -115,6 +117,7 @@ export default class Pages extends LightningElement {
             canvasStack = [];
             canvasStack.push(this.pages[curr].imageData);
             ++this.navigator;
+            log("after right navigation index " + this.navigator);
         }
     }
 
@@ -122,7 +125,6 @@ export default class Pages extends LightningElement {
     loadPages(){
         getPages({ bookId : this.book.id })
             .then(result =>{
-                console.log('length ' + result.length);
                 this.pages = result;
                 if(this.pages.length > 0 && this.init){
                     this.loadImage(this.pages[0]); // load page on board just for the first time opening this component
@@ -150,8 +152,7 @@ export default class Pages extends LightningElement {
         var page = event.detail.page;
         deletePage({ pageId : page.pageId })
             .then(result => {
-                console.log('deletePage result id - ' + result);
-                //corner case
+                //corner case : if page on canvas is deleted, that will try to update page something which is deleted
                 if(result == this.page.pageId) {
                     let temp = Object.assign({}, this.page);
                     temp.pageId = undefined;
@@ -246,7 +247,6 @@ export default class Pages extends LightningElement {
     save() {
         let state = canvasElement.toDataURL("image/png");
         canvasStack.push(state);
-        console.log(canvasStack.length);
     }
 
     restore() {

@@ -74,7 +74,7 @@ public with sharing class scratchbook_cc {
     public static List<BookWrapper> getBooks(){
         try {
             List<BookWrapper> bws = new List<BookWrapper>();
-            List<Book__c> books = [SELECT Id, Name, Description__c, (SELECT Id FROM Content_Versions__r) FROM Book__c ORDER BY Date_Updated__c DESC];
+            List<Book__c> books = [SELECT Id, Name, Description__c, (SELECT Id FROM Content_Versions__r) FROM Book__c WHERE CreatedById = :UserInfo.getUserId() ORDER BY Date_Updated__c DESC];
             for(Book__c book : books) {
                 BookWrapper bw = new BookWrapper();
                 bw.id = book.Id;
