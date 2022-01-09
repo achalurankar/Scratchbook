@@ -189,6 +189,8 @@ export default class Pages extends LightningElement {
     handleNewClick(){
         ctx.clearRect(0, 0, canvasElement.width, canvasElement.height);
         this.page = {};
+        canvasStack = []; // clear stack
+        this.navigator = this.pages.length; // shift navigator to last page + 1, so if left is clicked it will be navigated to last page, and ignored on right click
     }
 
     // save
