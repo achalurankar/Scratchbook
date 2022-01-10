@@ -72,7 +72,7 @@ export default class Pages extends LightningElement {
                 eraser.style.top = top + 'px';
                 eraser.style.left = left + 'px';
             } else {
-                let top = e.offsetY - 35;
+                let top = e.offsetY - 19;
                 let left = e.offsetX;
                 marker.style.top = top + 'px';
                 marker.style.left = left + 'px';
