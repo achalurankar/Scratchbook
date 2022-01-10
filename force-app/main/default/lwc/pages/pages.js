@@ -218,6 +218,7 @@ export default class Pages extends LightningElement {
     }
 
     handleExitClick() {
+        canvasStack = [];
         dispatchEvent(this, 'exit', {});
     }
 
