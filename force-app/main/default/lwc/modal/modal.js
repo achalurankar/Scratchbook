@@ -1,6 +1,10 @@
 import { LightningElement, api } from 'lwc';
 import { dispatchEvent } from 'c/utils';
 
+// important, do this before making changes in scratchbook
+// todo - fetch modal changes from todo-alerts project
+// retrieving modal component into that project and making changes for time input
+
 export default class Modal extends LightningElement {
     
     @api modalHeader;

@@ -96,8 +96,8 @@ export default class Books extends LightningElement {
     //get fields array for modal rendering
     getFields(name, description) {
         return [
-            { label : "Book Name", value : name, uniqueName : "BookName", required : true }, 
-            { label : "Description", value : description, uniqueName : "Description", required : false }
+            { label : "Book Name", type : "input", value : name, uniqueName : "BookName", required : true }, 
+            { label : "Description", type : "input", value : description, uniqueName : "Description", required : false }
         ];
     }
 } 

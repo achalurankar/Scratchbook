@@ -1,22 +1,17 @@
 <template>
     <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
         <div class="slds-modal__container">
+            <!-- header -->
             <header class="slds-modal__header">
-                <!-- header -->
                 <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">{modalHeader}</h2>
             </header>
+            <!-- body -->
             <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
-                <!-- body -->
+                <!-- input fields iteration -->
                 <template for:each={fields} for:item="field">
                     <div key={field.label} class="slds-form-element">
-                        <label class="slds-form-element__label">
-                            <template if:true={field.required}>
-                                <abbr class="slds-required" title="required">* </abbr>
-                            </template>
-                            {field.label}
-                        </label>
                         <div class="slds-form-element__control">
-                            <input type="text" data-id={field.uniqueName} placeholder="Enter value…" value={field.value} required={field.required} class="slds-input" />
+                            <lightning-input data-id={field.uniqueName} value={field.value} type={field.type} label={field.label} required={field.required} placeholder="type here..."></lightning-input>
                         </div>
                     </div>
                 </template>
