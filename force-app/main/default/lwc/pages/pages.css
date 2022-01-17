@@ -32,6 +32,7 @@
     left: 0px;
     z-index: 1;
     transition: margin-left .5s;
+    background-color: white;
 }
 
 /* The sidebar menu */
