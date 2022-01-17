@@ -4,28 +4,7 @@
     --error: #dc3545;
 }
 
-.marker {
-    cursor: none;
-    position: absolute;
-    height: 20px;
-    width: 20px;
-    color: black;
-    z-index: -1;
-}
-
-.eraser {
-    cursor: none;
-    position: absolute;
-    height: 30px;
-    width: 30px;
-    border: 1px solid black;
-    border-radius: 50%;
-    background-color: white;
-    z-index: -1;
-}
-
 .board {
-    cursor: none;
     border:1px solid rgb(136, 135, 135);
     position: absolute;
     top : 0px;
