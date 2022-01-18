@@ -25,7 +25,7 @@ function getColorCode(color) {
         case "red":
             return "#FF0000";
         case "yellow":
-            return "#FFFF00";
+            return "#FFB81C";
         case "black":
             return "#000000";
 }

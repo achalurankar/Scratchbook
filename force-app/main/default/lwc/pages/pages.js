@@ -223,7 +223,6 @@ export default class Pages extends LightningElement {
         pen.style.height = '17px';
         pen.style.width = '17px';
         selectedColor = getColorCode(pen.classList[1]); //get color from class
-        marker.style.color = selectedColor;
         if(lineWidth === eraserSize)
             PageContext.handleEraserClick();
     }
