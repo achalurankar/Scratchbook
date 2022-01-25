@@ -30,6 +30,7 @@ export default class Pages extends LightningElement {
     @api width;
     @api page;
     @track pages = [];
+    idVsIndex = {};
     @track responseMsg = 'Page has been updated!';
     @api book;
 
@@ -135,6 +136,10 @@ export default class Pages extends LightningElement {
                     canvasStack.push(this.pages[0].imageData); // if first time undo is clicked after editing
                     this.init = false;
                 }
+                this.idVsIndex = {};
+                for(let i = 0; i < this.pages.length; i++) {
+                    this.idVsIndex[`${ this.pages[i].pageId }`] = i;
+                }
             })
             .catch(error =>{
                 console.log(JSON.stringify(error));
@@ -149,6 +154,7 @@ export default class Pages extends LightningElement {
     handleImageSelect(event){
         this.page = event.detail.page;
         this.loadImage(this.page);
+        this.navigator = this.idVsIndex[`${ this.page.pageId}`];
     }
 
     //delete
