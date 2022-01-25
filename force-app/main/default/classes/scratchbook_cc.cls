@@ -37,11 +37,16 @@ public with sharing class scratchbook_cc {
     }
 
     @AuraEnabled
-    public static List<PageWrapper> getPages(string bookId){
+    public static List<PageWrapper> getPages(string bookId, Integer off){
         try {
             //for content version
-            List<ContentVersion> cvs = [SELECT Id, VersionData FROM ContentVersion WHERE Book__c = :bookId ORDER BY CreatedDate];
-            // System.System.debug(cvs.size());
+            List<ContentVersion> temp = [SELECT Id FROM ContentVersion WHERE Book__c = :bookId ORDER BY CreatedDate LIMIT 3 OFFSET :off];
+            System.debug(temp.size());
+            Set<Id> ids = new Set<Id>();
+            for(ContentVersion cv : temp) {
+                ids.add(cv.Id);
+            }
+            List<ContentVersion> cvs = [SELECT Id, VersionData FROM ContentVersion WHERE Id in :ids ORDER BY CreatedDate];
             List<PageWrapper> pages = new List<PageWrapper>();
             for(ContentVersion cv : cvs) {
                 PageWrapper pw = new PageWrapper();

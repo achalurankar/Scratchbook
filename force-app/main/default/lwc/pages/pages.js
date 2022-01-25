@@ -37,7 +37,7 @@ export default class Pages extends LightningElement {
         this.page = {};
         this.height = 607;
         this.width = 1278;
-        this.loadPages();
+        this.loadPages(0);
         PageContext = this;
     }
 
@@ -119,14 +119,17 @@ export default class Pages extends LightningElement {
             canvasStack = [];
             canvasStack.push(this.pages[curr].imageData);
             ++this.navigator;
+            if(curr == this.pages.length - 1) {
+                this.loadPages(this.pages.length); // get next three pages
+            }
         }
     }
 
     init = true;
-    loadPages(){
-        getPages({ bookId : this.book.id })
+    loadPages(off){
+        getPages({ bookId : this.book.id, off : off })
             .then(result =>{
-                this.pages = result;
+                this.pages = this.pages.concat(result); // concat next three pages
                 if(this.pages.length > 0 && this.init){
                     this.loadImage(this.pages[0]); // load page on board just for the first time opening this component
                     canvasStack.push(this.pages[0].imageData); // if first time undo is clicked after editing
@@ -140,7 +143,7 @@ export default class Pages extends LightningElement {
 
     refresh() {
         //location.reload();
-        this.loadPages();
+        this.loadPages(this.pages.length);
     }
     
     handleImageSelect(event){
@@ -160,7 +163,7 @@ export default class Pages extends LightningElement {
                     this.page = temp;
                 }
                 this.createToast('success', 'Page has been deleted!');
-                this.refresh();
+                /* todo delete page from pages*/
             })
             .catch(error => {
                 console.log(JSON.stringify(error));
@@ -191,7 +194,7 @@ export default class Pages extends LightningElement {
                     temp.pageId = result;
                     this.page = temp;
                 }
-                this.createToast('success', 'Your page has been saved!');
+                this.createToast('success', 'Your page has been saved!'); 
                 this.refresh();
             })
             .catch(error => {
