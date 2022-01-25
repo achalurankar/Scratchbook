@@ -30,7 +30,6 @@ export default class Pages extends LightningElement {
     @api width;
     @api page;
     @track pages = [];
-    idVsIndex = {};
     @track responseMsg = 'Page has been updated!';
     @api book;
 
@@ -38,7 +37,7 @@ export default class Pages extends LightningElement {
         this.page = {};
         this.height = 607;
         this.width = 1278;
-        this.loadPages(0);
+        this.loadPages();
         PageContext = this;
     }
 
@@ -120,25 +119,18 @@ export default class Pages extends LightningElement {
             canvasStack = [];
             canvasStack.push(this.pages[curr].imageData);
             ++this.navigator;
-            if(curr == this.pages.length - 1) {
-                this.loadPages(this.pages.length); // get next three pages
-            }
         }
     }
 
     init = true;
-    loadPages(off){
-        getPages({ bookId : this.book.id, off : off })
+    loadPages(){
+        getPages({ bookId : this.book.id })
             .then(result =>{
-                this.pages = this.pages.concat(result); // concat next three pages
+                this.pages = result;
                 if(this.pages.length > 0 && this.init){
                     this.loadImage(this.pages[0]); // load page on board just for the first time opening this component
                     canvasStack.push(this.pages[0].imageData); // if first time undo is clicked after editing
                     this.init = false;
-                }
-                this.idVsIndex = {};
-                for(let i = 0; i < this.pages.length; i++) {
-                    this.idVsIndex[`${ this.pages[i].pageId }`] = i;
                 }
             })
             .catch(error =>{
@@ -148,13 +140,12 @@ export default class Pages extends LightningElement {
 
     refresh() {
         //location.reload();
-        this.loadPages(this.pages.length);
+        this.loadPages();
     }
     
     handleImageSelect(event){
         this.page = event.detail.page;
         this.loadImage(this.page);
-        this.navigator = this.idVsIndex[`${ this.page.pageId}`];
     }
 
     //delete
@@ -169,18 +160,7 @@ export default class Pages extends LightningElement {
                     this.page = temp;
                 }
                 this.createToast('success', 'Page has been deleted!');
-                /* todo change logic into efficient one */
-                let newArr = [];
-                let index = this.idVsIndex[`${ page.pageId }`];
-                console.log('deleted index = ' + index);
-                // removing element from pages array as the page is deleted
-                for(let i = 0; i < this.pages.length; i++) {
-                    if(index != i) {
-                        newArr.push[this.pages[i]];
-                    }
-                }
-                this.pages = newArr; // replace old array with new array without deleted element
-
+                this.refresh();
             })
             .catch(error => {
                 console.log(JSON.stringify(error));
@@ -211,7 +191,7 @@ export default class Pages extends LightningElement {
                     temp.pageId = result;
                     this.page = temp;
                 }
-                this.createToast('success', 'Your page has been saved!'); 
+                this.createToast('success', 'Your page has been saved!');
                 this.refresh();
             })
             .catch(error => {
