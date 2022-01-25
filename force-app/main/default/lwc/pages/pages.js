@@ -169,7 +169,18 @@ export default class Pages extends LightningElement {
                     this.page = temp;
                 }
                 this.createToast('success', 'Page has been deleted!');
-                /* todo delete page from pages*/
+                /* todo change logic into efficient one */
+                let newArr = [];
+                let index = this.idVsIndex[`${ page.pageId }`];
+                console.log('deleted index = ' + index);
+                // removing element from pages array as the page is deleted
+                for(let i = 0; i < this.pages.length; i++) {
+                    if(index != i) {
+                        newArr.push[this.pages[i]];
+                    }
+                }
+                this.pages = newArr; // replace old array with new array without deleted element
+
             })
             .catch(error => {
                 console.log(JSON.stringify(error));
